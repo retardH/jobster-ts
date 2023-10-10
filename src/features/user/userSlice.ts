@@ -11,15 +11,15 @@ const initialState: UserSlice = {
 
 export const registerUser = createAsyncThunk(
     'user/registerUser',
-    async (user, thunkAPI) => {
-        console.log(`Register User: ${user}`, thunkAPI);
+    async (user: any, thunkAPI) => {
+        console.log(`Register User: ${JSON.stringify(user)}`, thunkAPI);
     }
 );
 
 export const loginUser = createAsyncThunk(
     'user/loginUser',
-    async (user, thunkAPI) => {
-        console.log(`Login User: ${user}`, thunkAPI);
+    async (user: any, thunkAPI) => {
+        console.log(`Login User: ${JSON.stringify(user)}`, thunkAPI);
     }
 )
 
