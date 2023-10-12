@@ -14,7 +14,7 @@ const initialState = {
   isMember: true,
 };
 const Register = () => {
-  const { user, isLoading } = useSelector((state: RootState) => state.user);
+  const { user, isLoading} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [formValues, setFormValues] = useState(initialState);
   const handleChange = (

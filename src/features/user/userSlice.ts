@@ -1,4 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {LoginPayload, RegisterPayload} from "../../types";
+import {requestInstance} from "../../utils/axios.ts";
+import {toast} from "react-toastify";
 
 interface UserSlice {
     isLoading: boolean;
@@ -11,15 +14,27 @@ const initialState: UserSlice = {
 
 export const registerUser = createAsyncThunk(
     'user/registerUser',
-    async (user: any, thunkAPI) => {
-        console.log(`Register User: ${JSON.stringify(user)}`, thunkAPI);
+    async (user: RegisterPayload, thunkAPI) => {
+        try {
+            const response = await requestInstance.post('/auth/testingRegister', user);
+            console.log(response);
+        } catch (err: any) {
+            toast.error(err.response.data.msg);
+            console.log('error', err.response);
+        }
     }
 );
 
 export const loginUser = createAsyncThunk(
     'user/loginUser',
-    async (user: any, thunkAPI) => {
-        console.log(`Login User: ${JSON.stringify(user)}`, thunkAPI);
+    async (user: LoginPayload, thunkAPI) => {
+        try {
+            const response = await requestInstance.post('/auth/login', user);
+            console.log(response);
+        } catch (err: any) {
+            toast.error(err.response.data.msg);
+            console.log('error', err.response);
+        }
     }
 )
 
