@@ -14,7 +14,7 @@ const initialState = {
   isMember: true,
 };
 const Register = () => {
-  const { user, isLoading} = useSelector((state: RootState) => state.user);
+  const { user, isLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [formValues, setFormValues] = useState(initialState);
   const handleChange = (
@@ -68,8 +68,8 @@ const Register = () => {
           handleChange={handleChange}
           labelText="Password"
         />
-        <button type="submit" className="btn btn-block">
-          submit
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
+          {isLoading ? 'loading...' : 'submit'}
         </button>
         <p>
           {!formValues.isMember ? 'Already a member?' : 'Not a member yet?'}

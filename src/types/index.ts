@@ -1,5 +1,5 @@
 export type LoginPayload = {
-    name: string;
+    email: string;
     password: string;
 }
 
@@ -8,3 +8,5 @@ export type RegisterPayload = {
     email: string;
     password: string;
 }
+
+export type User = any;
