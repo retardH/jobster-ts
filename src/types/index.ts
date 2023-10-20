@@ -9,4 +9,10 @@ export type RegisterPayload = {
     password: string;
 }
 
-export type User = any;
+export type User = {
+    email: string;
+    name: string;
+    lastName: string;
+    location: string;
+    token: string;
+};
