@@ -1,8 +1,26 @@
 import styled from "styled-components";
+import {useSelector} from "react-redux";
+import {RootState} from "../../features/store.ts";
+import Logo from "../Logo.tsx";
+import NavLinks from "../NavLinks.tsx";
 
 const LargeSidebar = () => {
+    const { isSidebarOpen } = useSelector((state: RootState) => state.user);
     return <Wrapper>
-        <h2>Large Sidebar</h2>
+        <div
+            className={
+                isSidebarOpen
+                    ? 'sidebar-container '
+                    : 'sidebar-container show-sidebar'
+            }
+        >
+            <div className='content'>
+                <header>
+                    <Logo />
+                </header>
+                <NavLinks toggleSidebar={() => {}}/>
+            </div>
+        </div>
     </Wrapper>
 };
 

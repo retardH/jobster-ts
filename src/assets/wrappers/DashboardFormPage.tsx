@@ -63,6 +63,6 @@ const Wrapper = styled.section`
       margin-top: 0;
     }
   }
-`
+`;
 
 export default Wrapper
