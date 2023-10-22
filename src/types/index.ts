@@ -16,3 +16,10 @@ export type User = {
     location: string;
     token: string;
 };
+
+export type UpdateUserPayload = {
+    name: string;
+    lastName: string;
+    location: string;
+    email: string;
+}
