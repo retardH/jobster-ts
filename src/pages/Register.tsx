@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Wrapper from '../assets/wrappers/RegisterPage';
 import Logo from '../components/Logo';
 import FormRow from '../components/FormRow';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../features/store.ts';
 import { loginUser, registerUser } from '../features/user/userSlice.ts';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const initialState = {
   name: '',
@@ -47,9 +47,9 @@ const Register = () => {
     if (user) {
       setTimeout(() => {
         navigate('/');
-      }, 2000)
+      }, 2000);
     }
-  }, [user, navigate])
+  }, [user, navigate]);
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>

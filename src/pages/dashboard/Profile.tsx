@@ -1,72 +1,89 @@
-import styled from "styled-components";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../features/store.ts";
-import {useState} from "react";
-import FormRow from "../../components/FormRow.tsx";
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../features/store.ts';
+import { useState } from 'react';
+import FormRow from '../../components/FormRow.tsx';
+import { toast } from 'react-toastify';
+import { updateUser } from '../../features/user/userSlice.ts';
 
 const Profile = () => {
-    const { isLoading, user } = useSelector((state: RootState) => state.user);
-    const dispatch = useDispatch();
+  const { isLoading, user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
 
-    const [userData, setUserData] = useState({
-        name: user?.name,
-        lastName: user?.lastName,
-        location: user?.location,
-        email: user?.email
+  const [userData, setUserData] = useState({
+    name: user?.name || '',
+    lastName: user?.lastName || '',
+    location: user?.location || '',
+    email: user?.email || '',
+  });
+
+  const handleUserDataChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setUserData({
+      ...userData,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const handleUserDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setUserData({
-          ...userData,
-            [e.target.name]: e.target.value
-        });
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(userData);
+
+    if (
+      !userData.email ||
+      !userData.name ||
+      !userData.lastName ||
+      !userData.location
+    ) {
+      toast.error('Please fills out all fields.');
+      return;
+    } else {
+      dispatch(updateUser(userData));
     }
+  };
 
-    const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        // dispatch(updateUserData(userData));
-        console.log(userData);
-    }
+  return (
+    <Wrapper>
+      <form className="form" onSubmit={handleSubmit}>
+        <h3>profile</h3>
 
-    return <Wrapper>
-        <form className='form' onSubmit={handleSubmit}>
-            <h3>profile</h3>
-
-            <div className='form-center'>
-                <FormRow
-                    labelText='first name'
-                    type='text'
-                    name='name'
-                    value={userData.name as string}
-                    handleChange={handleUserDataChange}
-                />
-                <FormRow
-                    type='text'
-                    labelText='last name'
-                    name='lastName'
-                    value={userData.lastName as string}
-                    handleChange={handleUserDataChange}
-                />
-                <FormRow
-                    labelText='email'
-                    type='email'
-                    name='email'
-                    value={userData.email as string}
-                    handleChange={handleUserDataChange}
-                />
-                <FormRow
-                    labelText='location'
-                    type='text'
-                    name='location'
-                    value={userData.location as string}
-                    handleChange={handleUserDataChange}
-                />
-                <button className='btn btn-block' type='submit' disabled={isLoading}>
-                    {isLoading ? 'Please Wait...' : 'save changes'}
-                </button>
-            </div>
-        </form>
+        <div className="form-center">
+          <FormRow
+            labelText="first name"
+            type="text"
+            name="name"
+            value={userData.name as string}
+            handleChange={handleUserDataChange}
+          />
+          <FormRow
+            type="text"
+            labelText="last name"
+            name="lastName"
+            value={userData.lastName as string}
+            handleChange={handleUserDataChange}
+          />
+          <FormRow
+            labelText="email"
+            type="email"
+            name="email"
+            value={userData.email as string}
+            handleChange={handleUserDataChange}
+          />
+          <FormRow
+            labelText="location"
+            type="text"
+            name="location"
+            value={userData.location as string}
+            handleChange={handleUserDataChange}
+          />
+          <button className="btn btn-block" type="submit" disabled={isLoading}>
+            {isLoading ? 'Please Wait...' : 'save changes'}
+          </button>
+        </div>
+      </form>
     </Wrapper>
+  );
 };
 
 export default Profile;
