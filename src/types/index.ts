@@ -17,6 +17,8 @@ export type User = {
     token: string;
 };
 
+
+// payload type for the update user redux action
 export type UpdateUserPayload = {
     name: string;
     lastName: string;
