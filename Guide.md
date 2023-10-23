@@ -99,18 +99,18 @@ const Landing = () => {
   return (
     <main>
       <nav>
-        <img src={logo} alt='jobster logo' className='logo' />
+        <img src={logo} alt="jobster logo" className="logo" />
       </nav>
-      <div className='container page'>
+      <div className="container page">
         {/* info */}
-        <div className='info'>
+        <div className="info">
           <h1>
             job <span>tracking</span> app
           </h1>
           <p>some text</p>
-          <button className='btn btn-hero'>Login/Register</button>
+          <button className="btn btn-hero">Login/Register</button>
         </div>
-        <img src={main} alt='job hunt' className='img main-img' />
+        <img src={main} alt="job hunt" className="img main-img" />
       </div>
     </main>
   );
@@ -186,7 +186,7 @@ Logo.js
 import logo from '../assets/images/logo.svg';
 
 const Logo = () => {
-  return <img src={logo} alt='jobify' className='logo' />;
+  return <img src={logo} alt="jobify" className="logo" />;
 };
 
 export default Logo;
@@ -222,10 +222,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Dashboard />} />
-        <Route path='landing' element={<Landing />} />
-        <Route path='register' element={<Register />} />
-        <Route path='*' element={<Error />} />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="landing" element={<Landing />} />
+        <Route path="register" element={<Register />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );
@@ -238,7 +238,7 @@ function App() {
 import { Link } from 'react-router-dom';
 
 return (
-  <Link to='/register' className='btn btn-hero'>
+  <Link to="/register" className="btn btn-hero">
     Login / Register
   </Link>
 );
@@ -252,12 +252,12 @@ import img from '../assets/images/not-found.svg';
 import Wrapper from '../assets/wrappers/ErrorPage';
 
 return (
-  <Wrapper className='full-page'>
+  <Wrapper className="full-page">
     <div>
-      <img src={img} alt='not found' />
+      <img src={img} alt="not found" />
       <h3>text</h3>
       <p>text</p>
-      <Link to='/'>back home</Link>
+      <Link to="/">back home</Link>
     </div>
   </Wrapper>
 );
@@ -303,27 +303,27 @@ function Register() {
     console.log(e.target);
   };
   return (
-    <Wrapper className='full-page'>
-      <form className='form' onSubmit={onSubmit}>
+    <Wrapper className="full-page">
+      <form className="form" onSubmit={onSubmit}>
         <Logo />
         <h3>Login</h3>
 
         {/* name field */}
-        <div className='form-row'>
-          <label htmlFor='name' className='form-label'>
+        <div className="form-row">
+          <label htmlFor="name" className="form-label">
             name
           </label>
 
           <input
-            type='text'
+            type="text"
             value={values.name}
-            name='name'
+            name="name"
             onChange={handleChange}
-            className='form-input'
+            className="form-input"
           />
         </div>
 
-        <button type='submit' className='btn btn-block'>
+        <button type="submit" className="btn btn-block">
           submit
         </button>
       </form>
@@ -345,7 +345,7 @@ import App from './App';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-root.render(<App tab='home' />);
+root.render(<App tab="home" />);
 ```
 
 #### 18) FormRow Component
@@ -358,8 +358,8 @@ root.render(<App tab='home' />);
 ```js
 const FormRow = ({ type, name, value, handleChange, labelText }) => {
   return (
-    <div className='form-row'>
-      <label htmlFor={name} className='form-label'>
+    <div className="form-row">
+      <label htmlFor={name} className="form-label">
         {labelText || name}
       </label>
 
@@ -368,7 +368,7 @@ const FormRow = ({ type, name, value, handleChange, labelText }) => {
         value={value}
         name={name}
         onChange={handleChange}
-        className='form-input'
+        className="form-input"
       />
     </div>
   );
@@ -394,8 +394,8 @@ return (
 
     {!values.isMember && (
       <FormRow
-        type='text'
-        name='name'
+        type="text"
+        name="name"
         value={values.name}
         handleChange={handleChange}
       />
@@ -407,7 +407,7 @@ return (
     <p>
       {values.isMember ? 'Not a member yet?' : 'Already a member?'}
 
-      <button type='button' onClick={toggleMember} className='member-btn'>
+      <button type="button" onClick={toggleMember} className="member-btn">
         {values.isMember ? 'Register' : 'Login'}
       </button>
     </p>
@@ -528,7 +528,7 @@ import { Provider } from 'react-redux';
 
 root.render(
   <Provider store={store}>
-    <App tab='home' />
+    <App tab="home" />
   </Provider>
 );
 ```
@@ -881,17 +881,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<SharedLayout />}>
+        <Route path="/" element={<SharedLayout />}>
           <Route index element={<Stats />} />
-          <Route path='all-jobs' element={<AllJobs />} />
-          <Route path='add-job' element={<AddJob />} />
-          <Route path='profile' element={<Profile />} />
+          <Route path="all-jobs" element={<AllJobs />} />
+          <Route path="add-job" element={<AddJob />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
-        <Route path='register' element={<Register />} />
-        <Route path='landing' element={<Landing />} />
-        <Route path='*' element={<Error />} />
+        <Route path="register" element={<Register />} />
+        <Route path="landing" element={<Landing />} />
+        <Route path="*" element={<Error />} />
       </Routes>
-      <ToastContainer position='top-center' />
+      <ToastContainer position="top-center" />
     </BrowserRouter>
   );
 }
@@ -915,12 +915,12 @@ const SharedLayout = () => {
   return (
     <>
       <Wrapper>
-        <main className='dashboard'>
+        <main className="dashboard">
           <SmallSidebar />
           <BigSidebar />
           <div>
             <Navbar />
-            <div className='dashboard-page'>
+            <div className="dashboard-page">
               <Outlet />
             </div>
           </div>
@@ -981,32 +981,32 @@ const Navbar = () => {
 
   return (
     <Wrapper>
-      <div className='nav-center'>
+      <div className="nav-center">
         <button
-          type='button'
-          className='toggle-btn'
+          type="button"
+          className="toggle-btn"
           onClick={() => console.log('toggle sidebar')}
         >
           <FaAlignLeft />
         </button>
         <div>
           <Logo />
-          <h3 className='logo-text'>dashboard</h3>
+          <h3 className="logo-text">dashboard</h3>
         </div>
-        <div className='btn-container'>
+        <div className="btn-container">
           <button
-            type='button'
-            className='btn'
+            type="button"
+            className="btn"
             onClick={() => console.log('toggle logout dropdown')}
           >
             <FaUserCircle />
             {user?.name}
             <FaCaretDown />
           </button>
-          <div className='dropdown show-dropdown'>
+          <div className="dropdown show-dropdown">
             <button
-              type='button'
-              className='dropdown-btn'
+              type="button"
+              className="dropdown-btn"
               onClick={() => {
                 console.log('logout user');
               }}
@@ -1053,7 +1053,7 @@ const toggle = () => {
   dispatch(toggleSidebar());
 };
 
-<button type='button' className='toggle-btn' onClick={toggle}>
+<button type="button" className="toggle-btn" onClick={toggle}>
   <FaAlignLeft />
 </button>;
 ```
@@ -1107,8 +1107,8 @@ import { toggleSidebar, logoutUser } from '../features/user/userSlice';
 
 <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>
   <button
-    type='button'
-    className='dropdown-btn'
+    type="button"
+    className="dropdown-btn"
     onClick={() => {
       dispatch(logoutUser());
     }}
@@ -1128,7 +1128,7 @@ import { useSelector } from 'react-redux';
 const ProtectedRoute = ({ children }) => {
   const { user } = useSelector((store) => store.user);
   if (!user) {
-    return <Navigate to='/landing' />;
+    return <Navigate to="/landing" />;
   }
   return children;
 };
@@ -1140,7 +1140,7 @@ App.js
 
 ```js
 <Route
-  path='/'
+  path="/"
   element={
     <ProtectedRoute>
       <SharedLayout />
@@ -1165,15 +1165,15 @@ import { useSelector, useDispatch } from 'react-redux';
 export const SmallSidebar = () => {
   return (
     <Wrapper>
-      <div className='sidebar-container show-sidebar'>
-        <div className='content'>
-          <button className='close-btn' onClick={() => console.log('toggle')}>
+      <div className="sidebar-container show-sidebar">
+        <div className="content">
+          <button className="close-btn" onClick={() => console.log('toggle')}>
             <FaTimes />
           </button>
           <header>
             <Logo />
           </header>
-          <div className='nav-links'>nav links</div>
+          <div className="nav-links">nav links</div>
         </div>
       </div>
     </Wrapper>
@@ -1255,7 +1255,7 @@ SmallSidebar.js
 import { NavLink } from 'react-router-dom';
 
 return (
-  <div className='nav-links'>
+  <div className="nav-links">
     {links.map((link) => {
       const { text, path, id, icon } = link;
 
@@ -1268,7 +1268,7 @@ return (
           key={id}
           onClick={toggle}
         >
-          <span className='icon'>{icon}</span>
+          <span className="icon">{icon}</span>
           {text}
         </NavLink>
       );
@@ -1306,7 +1306,7 @@ import links from '../utils/links';
 
 const NavLinks = ({ toggleSidebar }) => {
   return (
-    <div className='nav-links'>
+    <div className="nav-links">
       {links.map((link) => {
         const { text, path, id, icon } = link;
 
@@ -1319,7 +1319,7 @@ const NavLinks = ({ toggleSidebar }) => {
               isActive ? 'nav-link active' : 'nav-link'
             }
           >
-            <span className='icon'>{icon}</span>
+            <span className="icon">{icon}</span>
             {text}
           </NavLink>
         );
@@ -1358,7 +1358,7 @@ const BigSidebar = () => {
             : 'sidebar-container show-sidebar'
         }
       >
-        <div className='content'>
+        <div className="content">
           <header>
             <Logo />
           </header>
@@ -1656,7 +1656,6 @@ const initialState = {
 const jobSlice = createSlice({
   name: 'job',
   initialState,
-});
 
 export default jobSlice.reducer;
 ```
@@ -1714,29 +1713,29 @@ const AddJob = () => {
 
   return (
     <Wrapper>
-      <form className='form'>
+      <form className="form">
         <h3>{isEditing ? 'edit job' : 'add job'}</h3>
 
-        <div className='form-center'>
+        <div className="form-center">
           {/* position */}
           <FormRow
-            type='text'
-            name='position'
+            type="text"
+            name="position"
             value={position}
             handleChange={handleJobInput}
           />
           {/* company */}
           <FormRow
-            type='text'
-            name='company'
+            type="text"
+            name="company"
             value={company}
             handleChange={handleJobInput}
           />
           {/* location */}
           <FormRow
-            type='text'
-            labelText='job location'
-            name='jobLocation'
+            type="text"
+            labelText="job location"
+            name="jobLocation"
             value={jobLocation}
             handleChange={handleJobInput}
           />
@@ -1745,17 +1744,17 @@ const AddJob = () => {
           {/* job type */}
 
           {/* btn container */}
-          <div className='btn-container'>
+          <div className="btn-container">
             <button
-              type='button'
-              className='btn btn-block clear-btn'
+              type="button"
+              className="btn btn-block clear-btn"
               onClick={() => console.log('clear values')}
             >
               clear
             </button>
             <button
-              type='submit'
-              className='btn btn-block submit-btn'
+              type="submit"
+              className="btn btn-block submit-btn"
               onClick={handleSubmit}
               disabled={isLoading}
             >
@@ -1777,15 +1776,15 @@ export default AddJob;
 // job status
 
 return (
-  <div className='form-row'>
-    <label htmlFor='status' className='form-label'>
+  <div className="form-row">
+    <label htmlFor="status" className="form-label">
       status
     </label>
     <select
-      name='status'
+      name="status"
       value={status}
       onChange={handleJobInput}
-      className='form-select'
+      className="form-select"
     >
       {statusOptions.map((itemValue, index) => {
         return (
@@ -1804,8 +1803,8 @@ return (
 ```js
 const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
   return (
-    <div className='form-row'>
-      <label htmlFor={name} className='form-label'>
+    <div className="form-row">
+      <label htmlFor={name} className="form-label">
         {labelText || name}
       </label>
       <select
@@ -1813,7 +1812,7 @@ const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
         value={value}
         id={name}
         onChange={handleChange}
-        className='form-select'
+        className="form-select"
       >
         {list.map((itemValue, index) => {
           return (
@@ -1900,8 +1899,8 @@ import { clearValues, handleChange } from '../../features/job/jobSlice';
 
 return (
   <button
-    type='button'
-    className='btn btn-block clear-btn'
+    type="button"
+    className="btn btn-block clear-btn"
     onClick={() => dispatch(clearValues())}
   >
     clear
@@ -2027,8 +2026,8 @@ Navbar.js
 
 ```js
 <button
-  type='button'
-  className='dropdown-btn'
+  type="button"
+  className="dropdown-btn"
   onClick={() => dispatch(logoutUser('Logging out...'))}
 >
   logout
@@ -2145,7 +2144,7 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <h5>jobs info</h5>
-      <div className='jobs'>
+      <div className="jobs">
         {jobs.map((job) => {
           return <Job key={job._id} {...job} />;
         })}
@@ -2259,22 +2258,22 @@ const Job = ({
   return (
     <Wrapper>
       <header>
-        <div className='main-icon'>{company.charAt(0)}</div>
-        <div className='info'>
+        <div className="main-icon">{company.charAt(0)}</div>
+        <div className="info">
           <h5>{position}</h5>
           <p>{company}</p>
         </div>
       </header>
-      <div className='content'>
-        <div className='content-center'>
+      <div className="content">
+        <div className="content-center">
           <h4>more content</h4>
           <div className={`status ${status}`}>{status}</div>
         </div>
         <footer>
-          <div className='actions'>
+          <div className="actions">
             <Link
-              to='/add-job'
-              className='btn edit-btn'
+              to="/add-job"
+              className="btn edit-btn"
               onClick={() => {
                 console.log('edit job');
               }}
@@ -2282,8 +2281,8 @@ const Job = ({
               Edit
             </Link>
             <button
-              type='button'
-              className='btn delete-btn'
+              type="button"
+              className="btn delete-btn"
               onClick={() => {
                 console.log('delete  job');
               }}
@@ -2310,8 +2309,8 @@ import Wrapper from '../assets/wrappers/JobInfo';
 const JobInfo = ({ icon, text }) => {
   return (
     <Wrapper>
-      <span className='icon'>{icon}</span>
-      <span className='text'>{text}</span>
+      <span className="icon">{icon}</span>
+      <span className="text">{text}</span>
     </Wrapper>
   );
 };
@@ -2402,8 +2401,8 @@ Job.js
 
 ```js
 <button
-  type='button'
-  className='btn delete-btn'
+  type="button"
+  className="btn delete-btn"
   onClick={() => {
     dispatch(deleteJob(_id));
   }}
@@ -2434,8 +2433,8 @@ Job.js
 import { setEditJob, deleteJob } from '../features/job/jobSlice';
 
 <Link
-  to='/add-job'
-  className='btn edit-btn'
+  to="/add-job"
+  className="btn edit-btn"
   onClick={() => {
     dispatch(
       setEditJob({
@@ -2688,8 +2687,8 @@ Register.js
 
 ```js
 <button
-  type='button'
-  className='btn btn-block btn-hipster'
+  type="button"
+  className="btn btn-block btn-hipster"
   disabled={isLoading}
   onClick={() => {
     dispatch(loginUser({ email: 'testUser@test.com', password: 'secret' }));
@@ -2840,10 +2839,10 @@ const StatItem = ({ count, title, icon, color, bcg }) => {
   return (
     <Wrapper color={color} bcg={bcg}>
       <header>
-        <span className='count'>{count}</span>
-        <span className='icon'>{icon}</span>
+        <span className="count">{count}</span>
+        <span className="icon">{icon}</span>
       </header>
-      <h5 className='title'>{title}</h5>
+      <h5 className="title">{title}</h5>
     </Wrapper>
   );
 };
@@ -2872,7 +2871,7 @@ const ChartsContainer = () => {
   return (
     <Wrapper>
       <h4>Monthly Applications</h4>
-      <button type='button' onClick={() => setBarChart(!barChart)}>
+      <button type="button" onClick={() => setBarChart(!barChart)}>
         {barChart ? 'Area Chart' : 'Bar Chart'}
       </button>
       {barChart ? <BarChart data={data} /> : <AreaChart data={data} />}
@@ -2922,13 +2921,13 @@ import {
 
 const AreaChartComponent = ({ data }) => {
   return (
-    <ResponsiveContainer width='100%' height={300}>
+    <ResponsiveContainer width="100%" height={300}>
       <AreaChart data={data} margin={{ top: 50 }}>
-        <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='date' />
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
         <YAxis allowDecimals={false} />
         <Tooltip />
-        <Area type='monotone' dataKey='count' stroke='#1e3a8a' fill='#3b82f6' />
+        <Area type="monotone" dataKey="count" stroke="#1e3a8a" fill="#3b82f6" />
       </AreaChart>
     </ResponsiveContainer>
   );
@@ -2952,13 +2951,13 @@ import {
 
 const BarChartComponent = ({ data }) => {
   return (
-    <ResponsiveContainer width='100%' height={300}>
+    <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data} margin={{ top: 50 }}>
-        <CartesianGrid strokeDasharray='3 3 ' />
-        <XAxis dataKey='date' />
+        <CartesianGrid strokeDasharray="3 3 " />
+        <XAxis dataKey="date" />
         <YAxis allowDecimals={false} />
         <Tooltip />
-        <Bar dataKey='count' fill='#3b82f6' barSize={75} />
+        <Bar dataKey="count" fill="#3b82f6" barSize={75} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -2987,42 +2986,42 @@ const SearchContainer = () => {
   };
   return (
     <Wrapper>
-      <form className='form'>
+      <form className="form">
         <h4>search form</h4>
-        <div className='form-center'>
+        <div className="form-center">
           {/* search position */}
 
           <FormRow
-            type='text'
-            name='search'
+            type="text"
+            name="search"
             value={search}
             handleChange={handleSearch}
           />
           {/* search by status */}
           <FormRowSelect
-            labelText='status'
-            name='searchStatus'
+            labelText="status"
+            name="searchStatus"
             value={searchStatus}
             handleChange={handleSearch}
             list={['all', ...statusOptions]}
           />
           {/* search by type */}
           <FormRowSelect
-            labelText='type'
-            name='searchType'
+            labelText="type"
+            name="searchType"
             value={searchType}
             handleChange={handleSearch}
             list={['all', ...jobTypeOptions]}
           />
           {/* sort */}
           <FormRowSelect
-            name='sort'
+            name="sort"
             value={sort}
             handleChange={handleSearch}
             list={sortOptions}
           />
           <button
-            className='btn btn-block btn-danger'
+            className="btn btn-block btn-danger"
             disabled={isLoading}
             onClick={handleSubmit}
           >
@@ -3106,7 +3105,7 @@ return (
     <h5>
       {totalJobs} job{jobs.length > 1 && 's'} found
     </h5>
-    <div className='jobs'>
+    <div className="jobs">
       {jobs.map((job) => {
         return <Job key={job._id} {...job} />;
       })}
@@ -3135,15 +3134,15 @@ const PageBtnContainer = () => {
   const prevPage = () => {};
   return (
     <Wrapper>
-      <button className='prev-btn' onClick={prevPage}>
+      <button className="prev-btn" onClick={prevPage}>
         <HiChevronDoubleLeft />
         prev
       </button>
-      <div className='btn-container'>
+      <div className="btn-container">
         {pages.map((pageNumber) => {
           return (
             <button
-              type='button'
+              type="button"
               className={pageNumber === page ? 'pageBtn active' : 'pageBtn'}
               key={pageNumber}
               onClick={() => console.log('change page')}
@@ -3153,7 +3152,7 @@ const PageBtnContainer = () => {
           );
         })}
       </div>
-      <button className='next-btn' onClick={nextPage}>
+      <button className="next-btn" onClick={nextPage}>
         next
         <HiChevronDoubleRight />
       </button>
@@ -3204,11 +3203,11 @@ const prevPage = () => {
 };
 
 return (
-  <div className='btn-container'>
+  <div className="btn-container">
     {pages.map((pageNumber) => {
       return (
         <button
-          type='button'
+          type="button"
           className={pageNumber === page ? 'pageBtn active' : 'pageBtn'}
           key={pageNumber}
           onClick={() => dispatch(changePage(pageNumber))}
@@ -3386,8 +3385,8 @@ import { clearStore } from '../features/user/userSlice';
 
 return (
   <button
-    type='button'
-    className='dropdown-btn'
+    type="button"
+    className="dropdown-btn"
     onClick={() => {
       dispatch(clearStore('Logout Successful...'));
     }}
@@ -3575,13 +3574,13 @@ const SearchContainer = () => {
 
   return (
     <Wrapper>
-      <form className='form'>
+      <form className="form">
         <h4>search form</h4>
-        <div className='form-center'>
+        <div className="form-center">
           {/* search position */}
           <FormRow
-            type='text'
-            name='search'
+            type="text"
+            name="search"
             value={localSearch}
             handleChange={(e) => setLocalSearch(e.target.value)}
           />
@@ -3627,13 +3626,13 @@ const SearchContainer = () => {
 
   return (
     <Wrapper>
-      <form className='form'>
+      <form className="form">
         <h4>search form</h4>
-        <div className='form-center'>
+        <div className="form-center">
           {/* search position */}
           <FormRow
-            type='text'
-            name='search'
+            type="text"
+            name="search"
             value={localSearch}
             handleChange={optimizedDebounce}
           />

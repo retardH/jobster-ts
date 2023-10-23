@@ -1,10 +1,9 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {LoginPayload, RegisterPayload, UpdateUserPayload, User} from "../../types";
-import {requestInstance} from "../../utils/axios.ts";
+import {LoginPayload, UpdateUserPayload, User} from "../../types";
 import {toast} from "react-toastify";
 import {addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage} from '../../utils/storage.ts';
 import { RootState } from '../store.ts';
-import { AxiosHeaders } from 'axios';
+import { loginUserThunk, registerUserThunk, updateUserThunk } from './userThunk.ts';
 
 interface IUserSlice {
     isLoading: boolean;
@@ -19,45 +18,22 @@ const initialState: IUserSlice = {
 
 export const registerUser = createAsyncThunk(
     'user/registerUser',
-    async (user: RegisterPayload, thunkAPI) => {
-        try {
-            const response = await requestInstance.post('/auth/register', user);
-            return response.data;
-        } catch (err: any) {
-            return thunkAPI.rejectWithValue(err.response.data.msg);
-        }
+    async (user, thunkApi) => {
+        return registerUserThunk('auth/register', user, thunkApi)
     }
 );
 
 export const loginUser = createAsyncThunk(
     'user/loginUser',
     async (user: LoginPayload, thunkAPI) => {
-        try {
-            const response = await requestInstance.post('/auth/login', user);
-            return response.data;
-        } catch (err: any) {
-            return thunkAPI.rejectWithValue(err.response.data.msg);
-        }
+        return loginUserThunk('auth/login', user, thunkAPI);
     }
 );
 
 export const updateUser = createAsyncThunk<any, UpdateUserPayload, { state: RootState }>(
     'user/updateUser',
     async (user: any, thunkAPI) => {
-        try {
-            const response = await requestInstance.patch('auth/updateUser', user, {
-                headers: {
-                    // Authorization: `Bearer ${thunkAPI.getState()?.user.user?.token}`
-                }
-            })
-            return response.data;
-        } catch (err: any) {
-            if (err.response.status === 401) {
-                thunkAPI.dispatch(logoutUser());
-                return thunkAPI.rejectWithValue('Please log in again');
-            }
-            return thunkAPI.rejectWithValue(err.response.data.msg);
-        }
+        return updateUserThunk('auth/updateUser', user, thunkAPI);
     }
 )
 
