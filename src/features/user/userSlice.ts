@@ -1,15 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {LoginPayload, UpdateUserPayload, User} from "../../types";
+import {IUserSlice, LoginPayload, UpdateUserPayload} from "../../types";
 import {toast} from "react-toastify";
 import {addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage} from '../../utils/storage.ts';
 import { RootState } from '../store.ts';
 import { loginUserThunk, registerUserThunk, updateUserThunk } from './userThunk.ts';
 
-interface IUserSlice {
-    isLoading: boolean;
-    user: User | null;
-    isSidebarOpen: boolean;
-}
+
 const initialState: IUserSlice = {
     isLoading: false,
     isSidebarOpen: false,
