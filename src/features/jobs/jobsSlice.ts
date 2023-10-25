@@ -31,7 +31,6 @@ export const createNewJob = createAsyncThunk<
         Authorization: `Bearer ${thunkAPI.getState()?.user.user?.token}`,
       },
     });
-    thunkAPI.dispatch(clearValues());
     return response.data;
   } catch (error: any) {
     console.log(error);
@@ -61,7 +60,5 @@ export const jobsSlice = createSlice({
       });
   },
 });
-
-export const { handleJobsInputChange, clearValues } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

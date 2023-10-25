@@ -1,29 +1,40 @@
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../features/store";
-import { useDispatch } from "react-redux";
+import { RootState } from "../../features/store";
 import styled from "styled-components";
 import FormRow from "../../components/FormRow";
 import FormRowSelect from "../../components/FormRowSelect";
-import { clearValues, createNewJob } from "../../features/jobs/jobsSlice";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { requestInstance } from "../../utils/axios.ts";
 
 const AddJob = () => {
   const { isLoading, isEditing, editJobId } = useSelector(
     (state: RootState) => state.jobs,
   );
+  const { user } = useSelector((state: RootState) => state.user);
   const initialFormValues = {
     position: "",
     company: "",
-    jobLocation: "",
+    jobLocation: user?.location || "",
     jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
     jobType: "full-time",
     statusOptions: ["interview", "declined", "pending"],
     status: "pending",
   };
   const [jobForm, setJobForm] = useState(initialFormValues);
-  const { user } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch<AppDispatch>();
+
+  const requestNewJobCreate = async (payload: any) => {
+    try {
+      await requestInstance.post("/jobs", payload, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      });
+      toast.success("Job Created!");
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     const { position, company, jobLocation, jobType, status } = jobForm;
@@ -33,13 +44,12 @@ const AddJob = () => {
       return;
     }
 
-    dispatch(createNewJob({ position, company, jobLocation, jobType, status }));
+    requestNewJobCreate({ position, company, jobLocation, jobType, status });
   };
 
   const handleJobInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    console.log(e.target.name, e.target.value);
     const name = e.target.name;
     const value = e.target.value;
     setJobForm((prev) => ({
@@ -55,7 +65,8 @@ const AddJob = () => {
         jobLocation: user!.location,
       }));
     }
-  }, []);
+  }, [isEditing, user]);
+
   return (
     <Wrapper>
       <form className="form">
@@ -104,7 +115,7 @@ const AddJob = () => {
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => dispatch(clearValues())}
+              onClick={() => setJobForm(initialFormValues)}
             >
               clear
             </button>
