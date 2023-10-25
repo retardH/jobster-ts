@@ -1,30 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IJobSlice, JobsStateChangeAction } from "../../types";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { CreateNewJobPayload, IJobSlice } from "../../types";
+import { requestInstance } from "../../utils/axios.ts";
+import { RootState } from "../store.ts";
+import { logoutUser } from "../user/userSlice.ts";
+import { toast } from "react-toastify";
+
+
+const initialFiltersState = {
+  search: '',
+  searchStatus: 'all',
+  searchType: 'all',
+  sort: 'latest',
+  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+};
 
 const initialState: IJobSlice = {
-    isLoading: false,
-    position: '',
-    company: '',
-    jobLocation: '',
-    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
-    jobType: 'full-time',
-    statusOptions: ['interview', 'declined', 'pending'],
-    status: 'pending',
-    isEditing: false,
-    editJobId: '',
-  };
+  isEditing: false,
+  editJobId: "",
+  jobs: [],
+  totalJobs: 0,
+  numOfPages: 1,
+  page: 1,
+  stats: {},
+  monthlyApplications: [],
+  ...initialFiltersState,
+};
+
 
 
 export const jobsSlice = createSlice({
-    name: 'jobs',
-    initialState,
-    reducers: {
-        handleJobsInputChange: (state, { payload }: {payload: JobsStateChangeAction}) => {
-            state = {...state, ...payload}
-        }
-    }
-})
-
-export const { handleJobsInputChange } = jobsSlice.actions;
+  name: "jobs",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    
+  },
+});
 
 export default jobsSlice.reducer;

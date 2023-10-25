@@ -1,40 +1,72 @@
 import { useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../features/store';
-import { useDispatch } from 'react-redux';
+import { RootState } from '../../features/store';
 import styled from 'styled-components';
 import FormRow from '../../components/FormRow';
 import FormRowSelect from '../../components/FormRowSelect';
-import { handleJobsInputChange } from '../../features/jobs/jobsSlice';
-import { IJobSlice } from '../../types';
+import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { requestInstance } from '../../utils/axios.ts';
 
 const AddJob = () => {
-  const {
-    isLoading,
-    isEditing,
-    jobLocation,
-    jobType,
-    jobTypeOptions,
-    editJobId,
-    status,
-    statusOptions,
-    position,
-    company,
-  } = useSelector((state: RootState) => state.jobs);
-  const dispatch = useDispatch<AppDispatch>();
+  const { isEditing, editJobId } = useSelector(
+    (state: RootState) => state.jobs
+  );
+  const { user, isLoading } = useSelector((state: RootState) => state.user);
+  const initialFormValues = {
+    position: '',
+    company: '',
+    jobLocation: user?.location || '',
+    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+    jobType: 'full-time',
+    statusOptions: ['interview', 'declined', 'pending'],
+    status: 'pending',
+  };
+  const [jobForm, setJobForm] = useState(initialFormValues);
+
+  const requestNewJobCreate = async (payload: any) => {
+    try {
+      await requestInstance.post('/jobs', payload, {
+        headers: {
+          Authorization: `Bearer ${user?.token}`,
+        },
+      });
+      toast.success('Job Created!');
+    } catch (err: any) {
+      toast.error(err.response.data.msg);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
+    const { position, company, jobLocation, jobType, status } = jobForm;
     e.preventDefault();
-    console.log('submitted');
+    if (!position || !company || !jobLocation) {
+      toast.warn('Please fill out all fields');
+      return;
+    }
+
+    requestNewJobCreate({ position, company, jobLocation, jobType, status });
   };
 
   const handleJobInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    console.log(e);
-    const name = e.target.name as keyof IJobSlice;
+    const name = e.target.name;
     const value = e.target.value;
-    dispatch(handleJobsInputChange({ name, value }));
+    setJobForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  useEffect(() => {
+    if (!isEditing) {
+      setJobForm((prev) => ({
+        ...prev,
+        jobLocation: user!.location,
+      }));
+    }
+  }, [isEditing, user]);
+
   return (
     <Wrapper>
       <form className="form">
@@ -45,14 +77,14 @@ const AddJob = () => {
           <FormRow
             type="text"
             name="position"
-            value={position}
+            value={jobForm.position}
             handleChange={handleJobInput}
           />
           {/* company */}
           <FormRow
             type="text"
             name="company"
-            value={company}
+            value={jobForm.company}
             handleChange={handleJobInput}
           />
           {/* location */}
@@ -60,30 +92,30 @@ const AddJob = () => {
             type="text"
             labelText="job location"
             name="jobLocation"
-            value={jobLocation}
+            value={jobForm.jobLocation}
             handleChange={handleJobInput}
           />
           {/* job status */}
           <FormRowSelect
             name="status"
-            value={status}
+            value={jobForm.status}
             handleChange={handleJobInput}
-            options={statusOptions}
+            options={jobForm.statusOptions}
           />
           {/* job type */}
           <FormRowSelect
             name="jobType"
             labelText="job type"
-            value={jobType}
+            value={jobForm.jobType}
             handleChange={handleJobInput}
-            options={jobTypeOptions}
+            options={jobForm.jobTypeOptions}
           />
           {/* btn container */}
           <div className="btn-container">
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => console.log('clear values')}
+              onClick={() => setJobForm(initialFormValues)}
             >
               clear
             </button>

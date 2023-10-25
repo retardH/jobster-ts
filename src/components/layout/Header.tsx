@@ -1,47 +1,56 @@
 import styled from "styled-components";
-import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
+import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
 import Logo from "../Logo.tsx";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../features/store.ts";
-import {useState} from "react";
-import {logoutUser, toggleSidebarOpen} from "../../features/user/userSlice.ts";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../features/store.ts";
+import { useState } from "react";
+import {
+  logoutUser,
+  toggleSidebarOpen,
+} from "../../features/user/userSlice.ts";
 const Header = () => {
-    const {user} = useSelector((state: RootState) => state.user);
-    const dispatch = useDispatch();
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-    const toggleSidebar = () => {
-        dispatch(toggleSidebarOpen());
-    };
+  const toggleSidebar = () => {
+    dispatch(toggleSidebarOpen());
+  };
 
-    const logoutButtonHandler = () => {
-        dispatch(logoutUser());
-    };
+  const logoutButtonHandler = () => {
+    dispatch(logoutUser("logging out..."));
+  };
 
-    return <Wrapper>
-        <div className="nav-center">
-            <button type="button" className="toggle-btn" onClick={toggleSidebar}>
-                <FaAlignLeft />
-            </button>
-            <div>
-                <Logo />
-                <h3 className="logo-text">dashboard</h3>
-            </div>
-            <div className="btn-container">
-                <button type="button" className="btn" onClick={toggleDropdown}>
-                    <FaUserCircle />
-                    {user?.name}
-                    <FaCaretDown />
-                </button>
-                <div className={`dropdown ${isDropdownOpen && "show-dropdown"}`}>
-                    <button type="button" className="dropdown-btn" onClick={logoutButtonHandler}>
-                        logout
-                    </button>
-                </div>
-            </div>
+  return (
+    <Wrapper>
+      <div className="nav-center">
+        <button type="button" className="toggle-btn" onClick={toggleSidebar}>
+          <FaAlignLeft />
+        </button>
+        <div>
+          <Logo />
+          <h3 className="logo-text">dashboard</h3>
         </div>
+        <div className="btn-container">
+          <button type="button" className="btn" onClick={toggleDropdown}>
+            <FaUserCircle />
+            {user?.name}
+            <FaCaretDown />
+          </button>
+          <div className={`dropdown ${isDropdownOpen && "show-dropdown"}`}>
+            <button
+              type="button"
+              className="dropdown-btn"
+              onClick={logoutButtonHandler}
+            >
+              logout
+            </button>
+          </div>
+        </div>
+      </div>
     </Wrapper>
+  );
 };
 
 export default Header;
