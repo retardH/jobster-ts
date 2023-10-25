@@ -30,22 +30,20 @@ export type CreateNewJobPayload = {
   jobLocation: string;
   status: "pending" | "interview" | "declined";
   jobType: "full-time" | "part-time" | "remote" | "internship";
-};
+} & any;
 
 // thunkAPI type
 export type ThunkApi = any;
 
 export interface IJobSlice {
-  isLoading: boolean;
-  position: string;
-  company: string;
-  jobLocation: string;
-  jobTypeOptions: string[];
-  jobType: "full-time" | "part-time" | "remote" | "internship";
-  statusOptions: string[];
-  status: "pending" | "interview" | "declined";
   isEditing: boolean;
   editJobId: string;
+  jobs: any[],
+  totalJobs: number,
+  numOfPages: number,
+  page: number,
+  stats: any,
+  monthlyApplications: any[],
 }
 
 export interface IUserSlice {
