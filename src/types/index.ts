@@ -1,3 +1,7 @@
+import { GetThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
+import { RootState } from "../features/store.ts";
+import { Dispatch } from "@reduxjs/toolkit";
+
 export type LoginPayload = {
   email: string;
   password: string;
@@ -33,17 +37,29 @@ export type CreateNewJobPayload = {
 } & any;
 
 // thunkAPI type
-export type ThunkApi = any;
+export type ThunkApi = GetThunkAPI<
+  | {
+      state: RootState;
+      dispatch?: Dispatch<any> | undefined;
+      extra?: unknown;
+      rejectValue?: unknown;
+      serializedErrorType?: unknown;
+      pendingMeta?: unknown;
+      fulfilledMeta?: unknown;
+      rejectedMeta?: unknown;
+    }
+  | any
+>;
 
 export interface IJobSlice {
   isEditing: boolean;
   editJobId: string;
-  jobs: any[],
-  totalJobs: number,
-  numOfPages: number,
-  page: number,
-  stats: any,
-  monthlyApplications: any[],
+  jobs: any[];
+  totalJobs: number;
+  numOfPages: number;
+  page: number;
+  stats: any;
+  monthlyApplications: any[];
 }
 
 export interface IUserSlice {

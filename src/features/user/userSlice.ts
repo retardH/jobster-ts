@@ -1,5 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUserSlice, LoginPayload, UpdateUserPayload } from "../../types";
+import {
+  IUserSlice,
+  LoginPayload,
+  RegisterPayload,
+  ThunkApi,
+  UpdateUserPayload,
+} from "../../types";
 import { toast } from "react-toastify";
 import {
   addUserToLocalStorage,
@@ -21,7 +27,7 @@ const initialState: IUserSlice = {
 
 export const registerUser = createAsyncThunk(
   "user/registerUser",
-  async (user, thunkApi) => {
+  async (user: RegisterPayload, thunkApi) => {
     return registerUserThunk("auth/register", user, thunkApi);
   },
 );
@@ -33,13 +39,12 @@ export const loginUser = createAsyncThunk(
   },
 );
 
-export const updateUser = createAsyncThunk<
-  any,
-  UpdateUserPayload,
-  { state: RootState }
->("user/updateUser", async (user: any, thunkAPI) => {
-  return updateUserThunk("auth/updateUser", user, thunkAPI);
-});
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (user: any, thunkAPI: ThunkApi) => {
+    return updateUserThunk("auth/updateUser", user, thunkAPI);
+  },
+);
 
 const userSlice = createSlice({
   name: "user",

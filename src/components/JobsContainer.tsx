@@ -1,15 +1,22 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { RootState } from '../features/store';
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
+import { RootState } from "../features/store";
+import Loading from "./Loading.tsx";
+import { useEffect } from "react";
+import { getAllJobs } from "../features/jobs/jobsSlice.ts";
 
 const JobsContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
   const { jobs } = useSelector((state: RootState) => state.jobs);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getAllJobs(""));
+  }, []);
 
   if (isLoading) {
     return (
       <Wrapper>
-        <h2>Loading...</h2>
+        <Loading isLoading={true} color="#3b82f6" />
       </Wrapper>
     );
   }
