@@ -1,16 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { RootState } from "../features/store";
-import Loading from "./Loading.tsx";
-import { useEffect } from "react";
-import { getAllJobs } from "../features/jobs/jobsSlice.ts";
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { AppDispatch, RootState } from '../features/store';
+import Loading from './Loading.tsx';
+import { useEffect } from 'react';
+import { getAllJobs } from '../features/jobs/jobsSlice.ts';
 
 const JobsContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
   const { jobs } = useSelector((state: RootState) => state.jobs);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    // dispatch(getAllJobs(""));
+    dispatch(getAllJobs());
   }, []);
 
   if (isLoading) {

@@ -36,7 +36,7 @@ export const updateUserThunk = async (
   try {
     const response: any = await request("patch", url, user, {
       headers: {
-        Authorization: `Bearer ${thunkAPI.getState().user.user?.token}`,
+        Authorization: `Bearer ${thunkAPI?.getState()?.user?.user?.token}`,
       },
     });
     return response.data;

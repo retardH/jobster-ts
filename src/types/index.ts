@@ -1,5 +1,5 @@
 import { GetThunkAPI } from "@reduxjs/toolkit/dist/createAsyncThunk";
-import { RootState } from "../features/store.ts";
+import { AppDispatch, RootState } from "../features/store.ts";
 import { Dispatch } from "@reduxjs/toolkit";
 
 export type LoginPayload = {
@@ -37,19 +37,29 @@ export type CreateNewJobPayload = {
 } & any;
 
 // thunkAPI type
-export type ThunkApi = GetThunkAPI<
-  | {
-      state: RootState;
-      dispatch?: Dispatch<any> | undefined;
-      extra?: unknown;
-      rejectValue?: unknown;
-      serializedErrorType?: unknown;
-      pendingMeta?: unknown;
-      fulfilledMeta?: unknown;
-      rejectedMeta?: unknown;
-    }
-  | any
->;
+// export type ThunkApi = GetThunkAPI<
+//   | {
+//       state: RootState;
+//       dispatch?: Dispatch<any> | undefined;
+//       extra?: unknown;
+      // rejectValue?: unknown;
+      // serializedErrorType?: unknown;
+      // pendingMeta?: unknown;
+      // fulfilledMeta?: unknown;
+      // rejectedMeta?: unknown;
+//     }
+//   | any
+// >;
+
+export type ThunkApi = {
+  getState: () => RootState;
+  dispatch: AppDispatch;
+  rejectValue: unknown;
+  pendingMeta: unknown;
+  fulfilledMeta: unknown;
+  rejectedMeta: unknown;
+  rejectWithValue: any;
+};
 
 export interface IJobSlice {
   isEditing: boolean;

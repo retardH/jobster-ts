@@ -1,20 +1,20 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IJobSlice, ThunkApi } from "../../types";
-import { request } from "../../utils/axios.ts";
-import { RootState } from "../store.ts";
-import { toast } from "react-toastify";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { IJobSlice } from '../../types';
+import { request } from '../../utils/axios.ts';
+import { toast } from 'react-toastify';
+import { RootState } from '../store.ts';
 
 const initialFiltersState = {
-  search: "",
-  searchStatus: "all",
-  searchType: "all",
-  sort: "latest",
-  sortOptions: ["latest", "oldest", "a-z", "z-a"],
+  search: '',
+  searchStatus: 'all',
+  searchType: 'all',
+  sort: 'latest',
+  sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 };
 
 const initialState: IJobSlice = {
   isEditing: false,
-  editJobId: "",
+  editJobId: '',
   jobs: [],
   totalJobs: 0,
   numOfPages: 1,
@@ -24,26 +24,34 @@ const initialState: IJobSlice = {
   ...initialFiltersState,
 };
 
-export const getAllJobs = createAsyncThunk(
-  "allJobs/getJobs",
-  async (_, thunkApi: ThunkApi) => {
-    const url = "/jobs";
+export const getAllJobs = createAsyncThunk<
+  any,
+  undefined,
+  {
+    state: RootState;
+  }
+>('allJobs/getJobs', async (_, thunkApi) => {
+  const url = '/jobs';
 
-    try {
-      const response: any = await request("get", url, {
+  try {
+    const response: any = await request(
+      'get',
+      url,
+      {},
+      {
         headers: {
           authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
         },
-      });
-      return response.data;
-    } catch (err: any) {
-      return thunkApi.rejectWithValue(err.response.data.msg);
-    }
-  },
-);
+      }
+    );
+    return response.data;
+  } catch (err: any) {
+    return thunkApi.rejectWithValue(err.response.data.msg);
+  }
+});
 
 const jobsSlice = createSlice({
-  name: "jobs",
+  name: 'jobs',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
