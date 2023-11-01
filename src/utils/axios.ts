@@ -1,39 +1,53 @@
-import axios from "axios";
-import { store } from "../features/store";
-import { setLoading } from "../features/user/userSlice";
+import axios from 'axios';
+import { setLoading } from '../features/user/userSlice';
+
+let store: any;
+
+export const injectStore = (_store: any) => {
+  store = _store;
+};
 
 export const requestInstance = axios.create({
-    baseURL: 'https://jobify-prod.herokuapp.com/api/v1/toolkit',
-    timeout: 10000,
-})
+  baseURL: 'https://jobify-prod.herokuapp.com/api/v1/toolkit',
+  timeout: 5000,
+});
 
-requestInstance.interceptors.request.use((config) => {
-    store.dispatch(setLoading(true));
-    return config;
-}, error => {
-    Promise.reject(error);
-})
+export const request = (
+  method: string,
+  url: string,
+  payload?: any,
+  config?: any
+) => {
+  let response: Promise<any>;
+  store.dispatch(setLoading(true));
+  if (method === 'post') {
+    response = requestInstance.post(url, payload, config);
+  } else if (method === 'get') {
+    console.log(url, payload, config);
 
-requestInstance.interceptors.response.use((config) => {
-    console.log('response config', config);
-    store.dispatch(setLoading(false));
-    return config;
-}, error => {
-    return Promise.reject(error);
-})
+    response = requestInstance.get(url, { ...config });
+  } else if (method === 'put') {
+    response = requestInstance.put(url, payload);
+  } else if (method === 'patch') {
+    response = requestInstance.patch(url, payload);
+  } else if (method === 'delete') {
+    response = requestInstance.delete(url, {
+      params: payload,
+      ...config,
+    });
+  }
 
-
-export const request = (method: string, url: string, payload: any, config: any) => {
-    if (method === 'post') {
-        requestInstance.post(url, payload, config);
-    } else if (method === 'put') {
-        requestInstance.put(url, payload);
-    } else if (method === 'patch') {
-        requestInstance.patch(url, payload);
-    } else if (method === 'delete') {
-        requestInstance.delete(url, {
-            params: payload,
-            ...config,
-        })
-    }
-}
+  return new Promise((resolve, reject) => {
+    response
+      .then((res) => {
+        console.log('resolved');
+        resolve(res);
+        store.dispatch(setLoading(false));
+      })
+      .catch((err) => {
+        console.log('rejected');
+        reject(err);
+        store.dispatch(setLoading(false));
+      });
+  });
+};

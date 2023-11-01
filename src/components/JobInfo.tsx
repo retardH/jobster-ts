@@ -1,5 +1,21 @@
 import styled from 'styled-components';
 
+type JobInfoProps = {
+  icon: any;
+  text: string;
+};
+
+const JobInfo = ({ icon, text }: JobInfoProps) => {
+  return (
+    <Wrapper>
+      <span className="icon">{icon}</span>
+      <span className="text">{text}</span>
+    </Wrapper>
+  );
+};
+
+export default JobInfo;
+
 const Wrapper = styled.div`
   margin-top: 0.5rem;
   display: flex;
@@ -19,4 +35,3 @@ const Wrapper = styled.div`
     letter-spacing: var(--letterSpacing);
   }
 `;
-export default Wrapper;

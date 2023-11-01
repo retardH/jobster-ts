@@ -1,22 +1,24 @@
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "./Header.tsx";
 import styled from "styled-components";
 import LargeSidebar from "./LargeSidebar.tsx";
 import SmallSidebar from "./SmallSidebar.tsx";
 
 const SharedLayout = () => {
-    return <Wrapper>
-        <main className="dashboard">
-            <LargeSidebar />
-            <SmallSidebar />
-            <div>
-                <Header/>
-                <div className="dashboard-page">
-                    <Outlet/>
-                </div>
-            </div>
-        </main>
+  return (
+    <Wrapper>
+      <main className="dashboard">
+        <LargeSidebar />
+        <SmallSidebar />
+        <div>
+          <Header />
+          <div className="dashboard-page">
+            <Outlet />
+          </div>
+        </div>
+      </main>
     </Wrapper>
+  );
 };
 
 export default SharedLayout;
@@ -31,6 +33,7 @@ const Wrapper = styled.section`
     width: 90vw;
     margin: 0 auto;
     padding: 2rem 0;
+    position: relative;
   }
 
   @media (min-width: 992px) {
@@ -42,4 +45,4 @@ const Wrapper = styled.section`
       width: 90%;
     }
   }
-`
+`;

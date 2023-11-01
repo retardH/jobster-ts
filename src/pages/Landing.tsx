@@ -15,9 +15,15 @@ const Landing = () => {
             job <span>tracking</span> app
           </h1>
           <p>
-            Crucifix narwhal street art asymmetrical, humblebrag tote bag pop-up
-            fixie raclette taxidermy craft beer. Brunch bitters synth, VHS
-            crucifix heirloom meggings bicycle rights.
+            Welcome to the JobSter, your gateway to a world of exciting career
+            opportunities. Finding the perfect job can be a daunting task, but
+            we're here to make it easier for you.With a vast database of job
+            listings from a wide range of industries and locations, we connect
+            job seekers with employers who are actively hiring. Our
+            user-friendly interface, advanced search filters, and personalized
+            job recommendations ensure that you can quickly pinpoint the
+            positions that match your skills, interests, and aspirations. Your
+            dream job is just a click away!
           </p>
           <Link to="/register" className="btn btn-hero">
             Login/Register
