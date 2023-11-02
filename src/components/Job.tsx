@@ -70,7 +70,7 @@ const Job = ({
               type="button"
               className="btn delete-btn"
               onClick={() => {
-                console.log('delete  job');
+                console.log('deleting  job');
                 dispatch(deleteJob(_id));
               }}
             >

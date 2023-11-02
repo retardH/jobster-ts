@@ -1,11 +1,13 @@
 import { useSelector } from 'react-redux';
-import { RootState } from '../../features/store';
+import { AppDispatch, RootState } from '../../features/store';
 import styled from 'styled-components';
 import FormRow from '../../components/FormRow';
 import FormRowSelect from '../../components/FormRowSelect';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-import { request, requestInstance } from '../../utils/axios.ts';
+import { request } from '../../utils/axios.ts';
+import { useDispatch } from 'react-redux';
+import { editJob } from '../../features/jobs/jobsSlice.ts';
 
 const AddJob = () => {
   const {
@@ -18,6 +20,7 @@ const AddJob = () => {
     status,
   } = useSelector((state: RootState) => state.jobs);
   const { user, isLoading } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
   const initialFormValues = {
     position,
     company,
@@ -48,6 +51,16 @@ const AddJob = () => {
     e.preventDefault();
     if (!position || !company || !jobLocation) {
       toast.warn('Please fill out all fields');
+      return;
+    }
+
+    if (isEditing) {
+      dispatch(
+        editJob({
+          jobId: editJobId,
+          job: { company, position, jobLocation, jobType, status },
+        })
+      );
       return;
     }
 

@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IJobSlice } from '../../types';
-import { request } from '../../utils/axios.ts';
 import { toast } from 'react-toastify';
-import { RootState } from '../store.ts';
+import { deleteJobThunk, editJobThunk, getAllJobsThunk } from './jobsThunk.ts';
 
 const initialFiltersState = {
   search: '',
@@ -30,40 +29,24 @@ const initialState: IJobSlice = {
   ...initialFiltersState,
 };
 
-export const getAllJobs = createAsyncThunk<
-  any,
-  undefined,
-  {
-    state: RootState;
+export const getAllJobs = createAsyncThunk(
+  'allJobs/getJobs',
+  async (_, thunkApi) => {
+    return getAllJobsThunk(thunkApi);
   }
->('allJobs/getJobs', async (_, thunkApi) => {
-  const url = '/jobs';
+);
 
-  try {
-    const response: any = await request('get', url, undefined, {
-      headers: {
-        authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
-      },
-    });
-    return response.data;
-  } catch (err: any) {
-    return thunkApi.rejectWithValue(err.response.data.msg);
-  }
-});
-
-export const deleteJob = createAsyncThunk<any, string, { state: RootState }>(
+export const deleteJob = createAsyncThunk<any, string>(
   'job/deleteJob',
   async (jobId, thunkApi) => {
-    try {
-      const response = await request('delete', `/jobs/${jobId}`, undefined, {
-        headers: {
-          authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
-        },
-      });
-      return response.data;
-    } catch (err: any) {
-      thunkApi.rejectWithValue(err.response.data.msg);
-    }
+    return deleteJobThunk(`/jobs/${jobId}`, thunkApi);
+  }
+);
+
+export const editJob = createAsyncThunk<any, Record<string, any>>(
+  'job/editJob',
+  async (payload, thunkApi) => {
+    return editJobThunk(`/jobs/${payload.jobId}`, payload.job, thunkApi);
   }
 );
 
@@ -72,8 +55,6 @@ const jobsSlice = createSlice({
   initialState,
   reducers: {
     setEditJob: (state, action) => {
-      console.log(action.payload);
-
       return { ...state, isEditing: true, ...action.payload };
     },
   },
@@ -83,7 +64,13 @@ const jobsSlice = createSlice({
     }),
       builder.addCase(getAllJobs.rejected, (_, action) => {
         toast.error(action.payload as string);
+      }),
+      builder.addCase(editJob.fulfilled, () => {
+        toast.success('Job Modified.');
       });
+    builder.addCase(editJob.rejected, (_, action) => {
+      toast.error(action.payload as string);
+    });
   },
 });
 

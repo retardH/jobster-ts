@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
-import Logo from "../Logo.tsx";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../features/store.ts";
-import { useState } from "react";
+import styled from 'styled-components';
+import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
+import Logo from '../Logo.tsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../features/store.ts';
+import { useState } from 'react';
 import {
   logoutUser,
   toggleSidebarOpen,
-} from "../../features/user/userSlice.ts";
+} from '../../features/user/userSlice.ts';
 const Header = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   const logoutButtonHandler = () => {
-    dispatch(logoutUser("logging out..."));
+    dispatch(logoutUser('logging out...'));
   };
 
   return (
@@ -38,7 +38,7 @@ const Header = () => {
             {user?.name}
             <FaCaretDown />
           </button>
-          <div className={`dropdown ${isDropdownOpen && "show-dropdown"}`}>
+          <div className={`dropdown ${isDropdownOpen && 'show-dropdown'}`}>
             <button
               type="button"
               className="dropdown-btn"
@@ -61,6 +61,9 @@ const Wrapper = styled.nav`
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
   .logo {
     display: flex;
     align-items: center;
