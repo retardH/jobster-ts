@@ -1,36 +1,43 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../features/store";
-import styled from "styled-components";
-import FormRow from "../../components/FormRow";
-import FormRowSelect from "../../components/FormRowSelect";
-import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
-import { request, requestInstance } from "../../utils/axios.ts";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../features/store';
+import styled from 'styled-components';
+import FormRow from '../../components/FormRow';
+import FormRowSelect from '../../components/FormRowSelect';
+import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import { request, requestInstance } from '../../utils/axios.ts';
 
 const AddJob = () => {
-  const { isEditing, editJobId } = useSelector(
-    (state: RootState) => state.jobs,
-  );
+  const {
+    isEditing,
+    editJobId,
+    position,
+    company,
+    jobLocation,
+    jobType,
+    status,
+  } = useSelector((state: RootState) => state.jobs);
   const { user, isLoading } = useSelector((state: RootState) => state.user);
   const initialFormValues = {
-    position: "",
-    company: "",
-    jobLocation: user?.location || "",
-    jobTypeOptions: ["full-time", "part-time", "remote", "internship"],
-    jobType: "full-time",
-    statusOptions: ["interview", "declined", "pending"],
-    status: "pending",
+    position,
+    company,
+    jobLocation,
+    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+    jobType,
+    statusOptions: ['interview', 'declined', 'pending'],
+    status,
   };
+
   const [jobForm, setJobForm] = useState(initialFormValues);
 
   const requestNewJobCreate = async (payload: any) => {
     try {
-      await request("post", "/jobs", payload, {
+      await request('post', '/jobs', payload, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
       });
-      toast.success("Job Created!");
+      toast.success('Job Created!');
     } catch (err: any) {
       toast.error(err.response.data.msg);
     }
@@ -40,7 +47,7 @@ const AddJob = () => {
     const { position, company, jobLocation, jobType, status } = jobForm;
     e.preventDefault();
     if (!position || !company || !jobLocation) {
-      toast.warn("Please fill out all fields");
+      toast.warn('Please fill out all fields');
       return;
     }
 
@@ -48,7 +55,7 @@ const AddJob = () => {
   };
 
   const handleJobInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -70,7 +77,7 @@ const AddJob = () => {
   return (
     <Wrapper>
       <form className="form">
-        <h3>{isEditing ? "edit job" : "add job"}</h3>
+        <h3>{isEditing ? 'edit job' : 'add job'}</h3>
 
         <div className="form-center">
           {/* position */}

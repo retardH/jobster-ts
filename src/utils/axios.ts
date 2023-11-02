@@ -17,15 +17,13 @@ export const request = (
   url: string,
   payload?: any,
   config?: any
-) => {
+): any => {
   let response: Promise<any>;
   store.dispatch(setLoading(true));
   if (method === 'post') {
     response = requestInstance.post(url, payload, config);
   } else if (method === 'get') {
-    console.log(url, payload, config);
-
-    response = requestInstance.get(url, { ...config });
+    response = requestInstance.get(url, { params: payload, ...config });
   } else if (method === 'put') {
     response = requestInstance.put(url, payload);
   } else if (method === 'patch') {
