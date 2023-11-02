@@ -4,6 +4,7 @@ import { AppDispatch, RootState } from '../features/store';
 import Loading from './Loading.tsx';
 import { useEffect } from 'react';
 import { getAllJobs } from '../features/jobs/jobsSlice.ts';
+import Job from './Job.tsx';
 
 const JobsContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
@@ -31,7 +32,20 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <h5>jobs info</h5>
-      <div className="jobs">All Jobs</div>
+      <div className="jobs">
+        {jobs.map((job) => (
+          <Job
+            key={job._id}
+            _id={job._id}
+            company={job.company}
+            position={job.position}
+            createdAt={job.createdAt}
+            status={job.status}
+            jobLocation={job.jobLocation}
+            jobType={job.jobType}
+          />
+        ))}
+      </div>
     </Wrapper>
   );
 };

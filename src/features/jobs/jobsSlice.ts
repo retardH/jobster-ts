@@ -21,6 +21,12 @@ const initialState: IJobSlice = {
   page: 1,
   stats: {},
   monthlyApplications: [],
+  status: 'pending',
+  jobLocation: '',
+  jobType: 'full-time',
+  position: '',
+  company: '',
+  createdAt: '',
   ...initialFiltersState,
 };
 
@@ -34,26 +40,43 @@ export const getAllJobs = createAsyncThunk<
   const url = '/jobs';
 
   try {
-    const response: any = await request(
-      'get',
-      url,
-      {},
-      {
-        headers: {
-          authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
-        },
-      }
-    );
+    const response: any = await request('get', url, undefined, {
+      headers: {
+        authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
+      },
+    });
     return response.data;
   } catch (err: any) {
     return thunkApi.rejectWithValue(err.response.data.msg);
   }
 });
 
+export const deleteJob = createAsyncThunk<any, string, { state: RootState }>(
+  'job/deleteJob',
+  async (jobId, thunkApi) => {
+    try {
+      const response = await request('delete', `/jobs/${jobId}`, undefined, {
+        headers: {
+          authorization: `Bearer ${thunkApi?.getState()?.user?.user?.token}`,
+        },
+      });
+      return response.data;
+    } catch (err: any) {
+      thunkApi.rejectWithValue(err.response.data.msg);
+    }
+  }
+);
+
 const jobsSlice = createSlice({
   name: 'jobs',
   initialState,
-  reducers: {},
+  reducers: {
+    setEditJob: (state, action) => {
+      console.log(action.payload);
+
+      return { ...state, isEditing: true, ...action.payload };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getAllJobs.fulfilled, (state, action) => {
       state.jobs = action.payload.jobs;
@@ -63,5 +86,7 @@ const jobsSlice = createSlice({
       });
   },
 });
+
+export const { setEditJob } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

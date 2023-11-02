@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import JobInfo from './JobInfo';
 import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from 'react-icons/fa';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../features/store';
+import { deleteJob, setEditJob } from '../features/jobs/jobsSlice';
 
 type JobProps = {
   _id: string;
@@ -15,6 +18,7 @@ type JobProps = {
 };
 
 const Job = ({
+  _id,
   position,
   company,
   jobLocation,
@@ -23,6 +27,7 @@ const Job = ({
   jobType,
 }: JobProps) => {
   const date = moment(createdAt).format('MMM Do, YYYY');
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <Wrapper>
@@ -47,6 +52,16 @@ const Job = ({
               className="btn edit-btn"
               onClick={() => {
                 console.log('edit job');
+                dispatch(
+                  setEditJob({
+                    editJobId: _id,
+                    company,
+                    position,
+                    jobLocation,
+                    jobType,
+                    status,
+                  })
+                );
               }}
             >
               Edit
@@ -56,6 +71,7 @@ const Job = ({
               className="btn delete-btn"
               onClick={() => {
                 console.log('delete  job');
+                dispatch(deleteJob(_id));
               }}
             >
               Delete
