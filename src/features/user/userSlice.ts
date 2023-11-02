@@ -1,23 +1,22 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   IUserSlice,
   LoginPayload,
   RegisterPayload,
-  ThunkApi,
   UpdateUserPayload,
-} from "../../types";
-import { toast } from "react-toastify";
+} from '../../types';
+import { toast } from 'react-toastify';
 import {
   addUserToLocalStorage,
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
-} from "../../utils/storage.ts";
-import { RootState } from "../store.ts";
+} from '../../utils/storage.ts';
+import { RootState } from '../store.ts';
 import {
   loginUserThunk,
   registerUserThunk,
   updateUserThunk,
-} from "./userThunk.ts";
+} from './userThunk.ts';
 
 const initialState: IUserSlice = {
   isLoading: false,
@@ -25,29 +24,31 @@ const initialState: IUserSlice = {
   user: getUserFromLocalStorage(),
 };
 
-export const registerUser = createAsyncThunk(
-  "user/registerUser",
-  async (user: RegisterPayload, thunkApi) => {
-    return registerUserThunk("auth/register", user, thunkApi);
-  },
-);
+export const registerUser = createAsyncThunk<
+  any,
+  RegisterPayload,
+  { state: RootState }
+>('user/registerUser', async (user: RegisterPayload, thunkApi) => {
+  return registerUserThunk('auth/register', user, thunkApi);
+});
 
-export const loginUser = createAsyncThunk(
-  "user/loginUser",
-  async (user: LoginPayload, thunkAPI) => {
-    return loginUserThunk("auth/login", user, thunkAPI);
-  },
-);
+export const loginUser = createAsyncThunk<
+  any,
+  LoginPayload,
+  { state: RootState }
+>('user/loginUser', async (user: LoginPayload, thunkAPI) => {
+  return loginUserThunk('auth/login', user, thunkAPI);
+});
 
-export const updateUser = createAsyncThunk(
-  "user/updateUser",
-  async (user: any, thunkAPI: ThunkApi) => {
-    return updateUserThunk("auth/updateUser", user, thunkAPI);
-  },
+export const updateUser = createAsyncThunk<any, any, { state: RootState }>(
+  'user/updateUser',
+  async (user: any, thunkAPI) => {
+    return updateUserThunk('auth/updateUser', user, thunkAPI);
+  }
 );
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: initialState,
   reducers: {
     toggleSidebarOpen: (state) => {
@@ -100,7 +101,7 @@ const userSlice = createSlice({
         state.user = action.payload.user;
 
         addUserToLocalStorage(action.payload.user);
-        toast.success("Profile Successfully Updated");
+        toast.success('Profile Successfully Updated');
       }),
       builder.addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setLoading } from '../features/user/userSlice';
+import { toast } from 'react-toastify';
+import { getUserFromLocalStorage } from './storage';
 
 let store: any;
 
@@ -11,6 +13,19 @@ export const requestInstance = axios.create({
   baseURL: 'https://jobify-prod.herokuapp.com/api/v1/toolkit',
   timeout: 5000,
 });
+
+requestInstance.interceptors.request.use(
+  (config) => {
+    const user = getUserFromLocalStorage();
+    if (user) {
+      config.headers['authorization'] = `Bearer ${user.token}`;
+    }
+    return config;
+  },
+  (err) => {
+    return Promise.reject(err);
+  }
+);
 
 export const request = (
   method: string,
@@ -27,7 +42,7 @@ export const request = (
   } else if (method === 'put') {
     response = requestInstance.put(url, payload);
   } else if (method === 'patch') {
-    response = requestInstance.patch(url, payload);
+    response = requestInstance.patch(url, payload, config);
   } else if (method === 'delete') {
     response = requestInstance.delete(url, {
       params: payload,
@@ -38,13 +53,14 @@ export const request = (
   return new Promise((resolve, reject) => {
     response
       .then((res) => {
-        console.log('resolved');
         resolve(res);
         store.dispatch(setLoading(false));
       })
       .catch((err) => {
-        console.log('rejected');
         reject(err);
+        console.log(err);
+
+        // toast.error(err.response.data.msg);
         store.dispatch(setLoading(false));
       });
   });
