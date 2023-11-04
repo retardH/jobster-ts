@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IJobSlice } from '../../types';
 import { toast } from 'react-toastify';
 import { deleteJobThunk, editJobThunk, getAllJobsThunk } from './jobsThunk.ts';
+import { request } from '../../utils/axios.ts';
 
 const initialFiltersState = {
   search: '',
@@ -50,6 +51,19 @@ export const editJob = createAsyncThunk<any, Record<string, any>>(
   }
 );
 
+export const showStats = createAsyncThunk(
+  'allJobs/showStats',
+  async (_, thunkAPI) => {
+    try {
+      const resp = await request('get', '/jobs/stats');
+      console.log(resp.data);
+      return resp.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data.msg);
+    }
+  }
+);
+
 const jobsSlice = createSlice({
   name: 'jobs',
   initialState,
@@ -67,10 +81,17 @@ const jobsSlice = createSlice({
       }),
       builder.addCase(editJob.fulfilled, () => {
         toast.success('Job Modified.');
+      }),
+      builder.addCase(editJob.rejected, (_, action) => {
+        toast.error(action.payload as string);
+      }),
+      builder.addCase(showStats.fulfilled, (state, action) => {
+        state.monthlyApplications = action.payload.monthlyApplications;
+        state.stats = action.payload.defaultStats;
+      }),
+      builder.addCase(showStats.rejected, (_, action) => {
+        toast.error(action.payload as string);
       });
-    builder.addCase(editJob.rejected, (_, action) => {
-      toast.error(action.payload as string);
-    });
   },
 });
 
