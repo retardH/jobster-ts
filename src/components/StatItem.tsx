@@ -1,6 +1,27 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.article`
+type StatItemProps = {
+  count: number;
+  title: string;
+  icon: React.ReactNode;
+  color: string;
+  bcg: string;
+};
+const StatItem = ({ count, title, icon, color, bcg }: StatItemProps) => {
+  return (
+    <Wrapper color={color} bcg={bcg}>
+      <header>
+        <span className="count">{count}</span>
+        <span className="icon">{icon}</span>
+      </header>
+      <h5 className="title">{title}</h5>
+    </Wrapper>
+  );
+};
+
+export default StatItem;
+
+const Wrapper = styled.article<{ bcg?: string; color?: string }>`
   padding: 2rem;
   background: var(--white);
   border-radius: var(--borderRadius);
@@ -37,5 +58,3 @@ const Wrapper = styled.article`
     }
   }
 `;
-
-export default Wrapper;
