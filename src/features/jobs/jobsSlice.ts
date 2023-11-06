@@ -75,6 +75,8 @@ const jobsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllJobs.fulfilled, (state, action) => {
       state.jobs = action.payload.jobs;
+      state.numOfPages = action.payload.numOfPages;
+      state.totalJobs = action.payload.totalJobs;
     }),
       builder.addCase(getAllJobs.rejected, (_, action) => {
         toast.error(action.payload as string);

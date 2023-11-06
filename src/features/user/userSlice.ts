@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IUserSlice,
-  LoginPayload,
-  RegisterPayload,
-  UpdateUserPayload,
-} from '../../types';
+import { IUserSlice, LoginPayload, RegisterPayload } from '../../types';
 import { toast } from 'react-toastify';
 import {
   addUserToLocalStorage,
