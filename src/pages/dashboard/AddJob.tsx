@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { request } from '../../utils/axios.ts';
 import { useDispatch } from 'react-redux';
 import { editJob } from '../../features/jobs/jobsSlice.ts';
+import { jobTypeOptions, statusOptions } from '../../utils/constants.ts';
 
 const AddJob = () => {
   const {
@@ -25,9 +26,9 @@ const AddJob = () => {
     position,
     company,
     jobLocation,
-    jobTypeOptions: ['full-time', 'part-time', 'remote', 'internship'],
+    jobTypeOptions: jobTypeOptions,
     jobType,
-    statusOptions: ['interview', 'declined', 'pending'],
+    statusOptions: statusOptions,
     status,
   };
 

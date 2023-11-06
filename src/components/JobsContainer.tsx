@@ -5,10 +5,13 @@ import Loading from './Loading.tsx';
 import { useEffect } from 'react';
 import { getAllJobs } from '../features/jobs/jobsSlice.ts';
 import Job from './Job.tsx';
+import PageBtnContainer from './PageBtnContainer.tsx';
 
 const JobsContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
-  const { jobs } = useSelector((state: RootState) => state.jobs);
+  const { jobs, numOfPages, totalJobs } = useSelector(
+    (state: RootState) => state.jobs
+  );
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getAllJobs());
@@ -17,7 +20,7 @@ const JobsContainer = () => {
   if (isLoading) {
     return (
       <Wrapper>
-        <Loading isLoading={true} color="#3b82f6" />
+        <Loading isLoading={true} color="#3b82f6" isFixed={false} />
       </Wrapper>
     );
   }
@@ -31,7 +34,9 @@ const JobsContainer = () => {
   }
   return (
     <Wrapper>
-      <h5>jobs info</h5>
+      <h5>
+        {totalJobs} job{jobs.length > 1 && 's'} found
+      </h5>
       <div className="jobs">
         {jobs.map((job) => (
           <Job
@@ -46,6 +51,7 @@ const JobsContainer = () => {
           />
         ))}
       </div>
+      {numOfPages > 1 && <PageBtnContainer />}
     </Wrapper>
   );
 };
@@ -54,6 +60,7 @@ export default JobsContainer;
 
 const Wrapper = styled.section`
   margin-top: 4rem;
+  position: relative;
   h2 {
     text-transform: none;
   }

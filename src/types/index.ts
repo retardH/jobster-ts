@@ -1,6 +1,4 @@
 import { GetThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
-import { AppDispatch, RootState } from '../features/store.ts';
-import { AnyAction, Dispatch } from '@reduxjs/toolkit';
 
 export type LoginPayload = {
   email: string;
@@ -61,6 +59,11 @@ export interface IJobSlice {
   jobType: string;
   createdAt: string;
   status: string;
+  search: string;
+  searchStatus: string;
+  searchType: string;
+  sort: string;
+  sortOptions: string[];
 }
 
 export interface IUserSlice {
