@@ -9,13 +9,20 @@ import PageBtnContainer from './PageBtnContainer.tsx';
 
 const JobsContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
-  const { jobs, numOfPages, totalJobs } = useSelector(
-    (state: RootState) => state.jobs
-  );
+  const {
+    jobs,
+    numOfPages,
+    totalJobs,
+    page,
+    sort,
+    search,
+    searchStatus,
+    searchType,
+  } = useSelector((state: RootState) => state.jobs);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(getAllJobs());
-  }, []);
+  }, [page, sort, search, searchStatus, searchType]);
 
   if (isLoading) {
     return (

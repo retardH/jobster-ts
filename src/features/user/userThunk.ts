@@ -1,10 +1,11 @@
-import { ThunkApi } from '../../types';
+import { LoginPayload, RegisterPayload, ThunkApi } from '../../types';
 import { request } from '../../utils/axios';
+import { clearJobsState } from '../jobs/jobsSlice';
 import { logoutUser } from './userSlice';
 
 export const registerUserThunk = async (
   url: string,
-  user: any,
+  user: RegisterPayload,
   thunkAPI: ThunkApi
 ) => {
   try {
@@ -17,7 +18,7 @@ export const registerUserThunk = async (
 
 export const loginUserThunk = async (
   url: string,
-  user: any,
+  user: LoginPayload,
   thunkAPI: ThunkApi
 ) => {
   try {
@@ -42,5 +43,17 @@ export const updateUserThunk = async (
       return thunkAPI.rejectWithValue('Please log in again');
     }
     return thunkAPI.rejectWithValue(err.response.data.msg);
+  }
+};
+
+export const clearStoreThunk = async (message: string, thunkAPI: ThunkApi) => {
+  try {
+    thunkAPI.dispatch(logoutUser(message));
+
+    thunkAPI.dispatch(clearJobsState());
+
+    return Promise.resolve();
+  } catch {
+    return Promise.reject();
   }
 };

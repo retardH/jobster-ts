@@ -1,8 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IJobSlice } from '../../types';
+import { IJobSlice, ThunkApi } from '../../types';
 import { toast } from 'react-toastify';
-import { deleteJobThunk, editJobThunk, getAllJobsThunk } from './jobsThunk.ts';
-import { request } from '../../utils/axios.ts';
+import {
+  deleteJobThunk,
+  editJobThunk,
+  getAllJobsThunk,
+  showStatsThunk,
+} from './jobsThunk.ts';
+import { RootState } from '../store.ts';
 
 const initialFiltersState = {
   search: '',
@@ -33,7 +38,7 @@ const initialState: IJobSlice = {
 export const getAllJobs = createAsyncThunk(
   'allJobs/getJobs',
   async (_, thunkApi) => {
-    return getAllJobsThunk(thunkApi);
+    return getAllJobsThunk(thunkApi as ThunkApi<{ state: RootState }>);
   }
 );
 
@@ -54,13 +59,7 @@ export const editJob = createAsyncThunk<any, Record<string, any>>(
 export const showStats = createAsyncThunk(
   'allJobs/showStats',
   async (_, thunkAPI) => {
-    try {
-      const resp = await request('get', '/jobs/stats');
-      console.log(resp.data);
-      return resp.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
+    return showStatsThunk(thunkAPI);
   }
 );
 
@@ -71,6 +70,10 @@ const jobsSlice = createSlice({
     setEditJob: (state, action) => {
       return { ...state, isEditing: true, ...action.payload };
     },
+    changePage: (state, action) => {
+      state.page = action.payload;
+    },
+    clearJobsState: () => initialState,
   },
   extraReducers: (builder) => {
     builder.addCase(getAllJobs.fulfilled, (state, action) => {
@@ -97,6 +100,6 @@ const jobsSlice = createSlice({
   },
 });
 
-export const { setEditJob } = jobsSlice.actions;
+export const { setEditJob, changePage, clearJobsState } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

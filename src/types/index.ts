@@ -34,7 +34,7 @@ export type CreateNewJobPayload = {
   jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
 } & any;
 
-export type ThunkApi = GetThunkAPI<{}>;
+export type ThunkApi<T = any> = GetThunkAPI<{} & T>;
 
 export interface IJobSlice {
   isEditing: boolean;
