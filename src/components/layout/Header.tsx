@@ -2,15 +2,15 @@ import styled from 'styled-components';
 import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa';
 import Logo from '../Logo.tsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../features/store.ts';
+import { AppDispatch, RootState } from '../../features/store.ts';
 import { useState } from 'react';
 import {
-  logoutUser,
+  clearStore,
   toggleSidebarOpen,
 } from '../../features/user/userSlice.ts';
 const Header = () => {
   const { user } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -19,7 +19,7 @@ const Header = () => {
   };
 
   const logoutButtonHandler = () => {
-    dispatch(logoutUser('logging out...'));
+    dispatch(clearStore('logout successful'));
   };
 
   return (

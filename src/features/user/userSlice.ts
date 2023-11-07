@@ -8,6 +8,7 @@ import {
 } from '../../utils/storage.ts';
 import { RootState } from '../store.ts';
 import {
+  clearStoreThunk,
   loginUserThunk,
   registerUserThunk,
   updateUserThunk,
@@ -39,6 +40,13 @@ export const updateUser = createAsyncThunk<any, any, { state: RootState }>(
   'user/updateUser',
   async (user: any, thunkAPI) => {
     return updateUserThunk('auth/updateUser', user, thunkAPI);
+  }
+);
+
+export const clearStore = createAsyncThunk(
+  'user/clearStore',
+  async (message: string, thunkApi) => {
+    return clearStoreThunk(message, thunkApi);
   }
 );
 
@@ -102,6 +110,9 @@ const userSlice = createSlice({
         state.isLoading = false;
         toast.error(action.payload as string);
       });
+    builder.addCase(clearStore.rejected, () => {
+      toast.error('There was an error');
+    });
   },
 });
 
