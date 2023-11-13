@@ -1,24 +1,24 @@
-import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../features/store.ts';
-import { useState } from 'react';
-import FormRow from '../../components/FormRow.tsx';
-import { toast } from 'react-toastify';
-import { updateUser } from '../../features/user/userSlice.ts';
+import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../features/store.ts";
+import { useState } from "react";
+import FormRow from "../../components/FormRow.tsx";
+import { toast } from "react-toastify";
+import { updateUser } from "../../features/user/userSlice.ts";
 
 const Profile = () => {
   const { isLoading, user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
   const [userData, setUserData] = useState({
-    name: user?.name || '',
-    lastName: user?.lastName || '',
-    location: user?.location || '',
-    email: user?.email || '',
+    name: user?.name || "",
+    lastName: user?.lastName || "",
+    location: user?.location || "",
+    email: user?.email || "",
   });
 
   const handleUserDataChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setUserData({
       ...userData,
@@ -28,7 +28,6 @@ const Profile = () => {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(userData);
 
     if (
       !userData.email ||
@@ -36,7 +35,7 @@ const Profile = () => {
       !userData.lastName ||
       !userData.location
     ) {
-      toast.error('Please fills out all fields.');
+      toast.error("Please fills out all fields.");
       return;
     } else {
       dispatch(updateUser(userData));
@@ -78,7 +77,7 @@ const Profile = () => {
             handleChange={handleUserDataChange}
           />
           <button className="btn btn-block" type="submit" disabled={isLoading}>
-            {isLoading ? 'Please Wait...' : 'save changes'}
+            {isLoading ? "Please Wait..." : "save changes"}
           </button>
         </div>
       </form>

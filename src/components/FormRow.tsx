@@ -1,21 +1,23 @@
-import React from 'react';
+import React from "react";
 
 type FormRowProps = {
   type?: string;
   value: string;
   name: string;
   handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
   labelText?: string;
+  register?: any;
 };
 
 const FormRow = ({
-  type = 'text',
+  type = "text",
   value,
   handleChange,
   labelText,
   name,
+  register,
 }: FormRowProps) => {
   return (
     <div className="form-row">

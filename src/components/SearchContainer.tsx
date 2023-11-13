@@ -1,16 +1,17 @@
-import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import { AppDispatch, RootState } from '../features/store';
-import FormRow from './FormRow';
-import FormRowSelect from './FormRowSelect';
-import { jobTypeOptions, statusOptions } from '../utils/constants';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import { AppDispatch, RootState } from "../features/store";
+import FormRow from "./FormRow";
+import FormRowSelect from "./FormRowSelect";
+import { jobTypeOptions, statusOptions } from "../utils/constants";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { getAllJobs } from "../features/jobs/jobsSlice.ts";
 
 const SearchContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
   const { search, searchStatus, searchType, sort, sortOptions } = useSelector(
-    (state: RootState) => state.jobs
+    (state: RootState) => state.jobs,
   );
   const dispatch = useDispatch<AppDispatch>();
   const initialSearchValues = {
@@ -22,7 +23,7 @@ const SearchContainer = () => {
   const [searchForm, setSearchForm] = useState(initialSearchValues);
 
   const handleSearch = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (isLoading) {
       return;
@@ -32,7 +33,7 @@ const SearchContainer = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSearchForm(initialSearchValues);
-    console.log('submitted', searchForm);
+    dispatch(getAllJobs());
   };
   return (
     <Wrapper>
@@ -53,7 +54,7 @@ const SearchContainer = () => {
             name="searchStatus"
             value={searchForm.searchStatus}
             handleChange={handleSearch}
-            options={['all', ...statusOptions]}
+            options={["all", ...statusOptions]}
           />
           {/* search by type */}
           <FormRowSelect
@@ -61,7 +62,7 @@ const SearchContainer = () => {
             name="searchType"
             value={searchForm.searchType}
             handleChange={handleSearch}
-            options={['all', ...jobTypeOptions]}
+            options={["all", ...jobTypeOptions]}
           />
           {/* sort */}
           <FormRowSelect
@@ -75,7 +76,7 @@ const SearchContainer = () => {
             disabled={isLoading}
             onClick={handleSubmit}
           >
-            clear filters
+            search
           </button>
         </div>
       </form>

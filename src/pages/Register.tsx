@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Logo from '../components/Logo';
-import FormRow from '../components/FormRow';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../features/store.ts';
-import { loginUser, registerUser } from '../features/user/userSlice.ts';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import Logo from "../components/Logo";
+import FormRow from "../components/FormRow";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../features/store.ts";
+import { loginUser, registerUser } from "../features/user/userSlice.ts";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const initialState = {
-  name: '',
-  email: '',
-  password: '',
+  name: "",
+  email: "",
+  password: "",
   isMember: true,
 };
 const Register = () => {
@@ -20,17 +20,16 @@ const Register = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [formValues, setFormValues] = useState(initialState);
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormValues((values) => ({ ...values, [e.target.name]: e.target.value }));
   };
   const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, password, email, isMember } = formValues;
-    console.log('form values', formValues);
 
     if (!email || !password || (!isMember && !name)) {
-      toast.warn('Please fill out all fields');
+      toast.warn("Please fill out all fields");
       return;
     }
     if (isMember) {
@@ -46,15 +45,15 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate('/');
-      }, 2000);
+        navigate("/");
+      }, 1500);
     }
   }, [user, navigate]);
   return (
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3>{formValues.isMember ? 'Login' : 'Register'}</h3>
+        <h3>{formValues.isMember ? "Login" : "Register"}</h3>
         {!formValues.isMember && (
           <FormRow
             name="name"
@@ -78,7 +77,7 @@ const Register = () => {
           labelText="Password"
         />
         <button type="submit" className="btn btn-block" disabled={isLoading}>
-          {isLoading ? 'loading...' : 'submit'}
+          {isLoading ? "loading..." : "submit"}
         </button>
         <button
           type="button"
@@ -86,16 +85,16 @@ const Register = () => {
           disabled={isLoading}
           onClick={() => {
             dispatch(
-              loginUser({ email: 'testUser@test.com', password: 'secret' })
+              loginUser({ email: "testUser@test.com", password: "secret" }),
             );
           }}
         >
-          {isLoading ? 'loading...' : 'demo'}
+          {isLoading ? "loading..." : "demo"}
         </button>
         <p>
-          {!formValues.isMember ? 'Already a member?' : 'Not a member yet?'}
+          {!formValues.isMember ? "Already a member?" : "Not a member yet?"}
           <button type="button" className="member-btn" onClick={toggleMember}>
-            {!formValues.isMember ? 'Login' : 'Register'}
+            {!formValues.isMember ? "Login" : "Register"}
           </button>
         </p>
       </form>
@@ -108,8 +107,7 @@ const Wrapper = styled.section`
   align-items: center;
   .logo {
     display: block;
-    margin: 0 auto;
-    margin-bottom: 1.38rem;
+    margin: 0 auto 1.38rem auto;
   }
   .form {
     max-width: 400px;
@@ -120,8 +118,7 @@ const Wrapper = styled.section`
     text-align: center;
   }
   p {
-    margin: 0;
-    margin-top: 1rem;
+    margin: 1rem 0 0 0;
     text-align: center;
   }
   .btn {
