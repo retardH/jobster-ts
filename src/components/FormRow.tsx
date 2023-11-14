@@ -1,21 +1,17 @@
-import React from 'react';
+import React from "react";
 
 type FormRowProps = {
   type?: string;
-  value: string;
   name: string;
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
   labelText?: string;
+  inputProps: React.HTMLProps<HTMLInputElement>;
 };
 
 const FormRow = ({
-  type = 'text',
-  value,
-  handleChange,
+  type = "text",
   labelText,
   name,
+  inputProps,
 }: FormRowProps) => {
   return (
     <div className="form-row">
@@ -23,12 +19,11 @@ const FormRow = ({
         {labelText || name}
       </label>
       <input
-        autoComplete={name}
+        {...inputProps}
+        className="form-input"
         type={type}
         name={name}
-        className="form-input"
-        value={value}
-        onChange={handleChange}
+        autoComplete={name}
       />
     </div>
   );

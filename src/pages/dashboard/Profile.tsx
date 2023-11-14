@@ -1,51 +1,45 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../features/store.ts';
-import { useState } from 'react';
 import FormRow from '../../components/FormRow.tsx';
-import { toast } from 'react-toastify';
 import { updateUser } from '../../features/user/userSlice.ts';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { ProfileForm } from '../../types';
 
 const Profile = () => {
   const { isLoading, user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
-  const [userData, setUserData] = useState({
+  const initialFormValues = {
     name: user?.name || '',
     lastName: user?.lastName || '',
     location: user?.location || '',
     email: user?.email || '',
-  });
-
-  const handleUserDataChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value,
-    });
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(userData);
+  const { handleSubmit, register } = useForm<ProfileForm>({
+    defaultValues: initialFormValues,
+  });
 
-    if (
-      !userData.email ||
-      !userData.name ||
-      !userData.lastName ||
-      !userData.location
-    ) {
-      toast.error('Please fills out all fields.');
-      return;
-    } else {
-      dispatch(updateUser(userData));
-    }
+  const onSubmit: SubmitHandler<ProfileForm> = (data) => {
+    console.log('profile form data', data);
+    dispatch(updateUser(data));
+
+    // if (
+    //   !userData.email ||
+    //   !userData.name ||
+    //   !userData.lastName ||
+    //   !userData.location
+    // ) {
+    //   toast.error("Please fills out all fields.");
+    //   return;
+    // } else {
+    // }
   };
 
   return (
     <Wrapper>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <h3>profile</h3>
 
         <div className="form-center">
@@ -53,29 +47,25 @@ const Profile = () => {
             labelText="first name"
             type="text"
             name="name"
-            value={userData.name as string}
-            handleChange={handleUserDataChange}
+            inputProps={register('name', { required: true })}
           />
           <FormRow
             type="text"
             labelText="last name"
             name="lastName"
-            value={userData.lastName as string}
-            handleChange={handleUserDataChange}
+            inputProps={register('lastName', { required: true })}
           />
           <FormRow
             labelText="email"
             type="email"
             name="email"
-            value={userData.email as string}
-            handleChange={handleUserDataChange}
+            inputProps={register('email', { required: true })}
           />
           <FormRow
             labelText="location"
             type="text"
             name="location"
-            value={userData.location as string}
-            handleChange={handleUserDataChange}
+            inputProps={register('location', { required: true })}
           />
           <button className="btn btn-block" type="submit" disabled={isLoading}>
             {isLoading ? 'Please Wait...' : 'save changes'}

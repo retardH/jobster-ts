@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { setLoading } from '../features/user/userSlice';
-import { toast } from 'react-toastify';
+import { clearStore, setLoading } from '../features/user/userSlice';
 import { getUserFromLocalStorage } from './storage';
+import { ThunkApi } from '../types';
 
 let store: any;
 
@@ -57,11 +57,20 @@ export const request = (
         store.dispatch(setLoading(false));
       })
       .catch((err) => {
+        store.dispatch(setLoading(false));
         reject(err);
         console.log(err);
-
-        // toast.error(err.response.data.msg);
-        store.dispatch(setLoading(false));
       });
   });
+};
+
+export const checkForUnauthorizedResponse = (
+  error: any,
+  thunkAPI: ThunkApi
+) => {
+  if (error.response.status === 401) {
+    thunkAPI.dispatch(clearStore(''));
+    return thunkAPI.rejectWithValue('Unauthorized! Logging Out...');
+  }
+  return thunkAPI.rejectWithValue(error.response.data.msg);
 };

@@ -1,6 +1,5 @@
-import { GetThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
 import { ThunkApi } from '../../types';
-import { request } from '../../utils/axios';
+import { checkForUnauthorizedResponse, request } from '../../utils/axios';
 import { RootState } from '../store';
 
 export const deleteJobThunk = async (url: string, thunkApi: ThunkApi) => {
@@ -8,7 +7,7 @@ export const deleteJobThunk = async (url: string, thunkApi: ThunkApi) => {
     const response = await request('delete', url);
     return response.data;
   } catch (err: any) {
-    thunkApi.rejectWithValue(err.response.data.msg);
+    return checkForUnauthorizedResponse(err, thunkApi);
   }
 };
 
@@ -21,7 +20,7 @@ export const editJobThunk = async (
     const response = request('patch', url, jobPayload);
     return response.data;
   } catch (err: any) {
-    thunkApi.rejectWithValue(err.response.data.msg);
+    return checkForUnauthorizedResponse(err, thunkApi);
   }
 };
 
@@ -34,7 +33,7 @@ export const getAllJobsThunk = async (
     searchType: jobType,
     sort,
     page,
-  } = thunkApi.getState()?.jobs;
+  } = thunkApi.getState().jobs;
 
   const url = '/jobs';
 
@@ -53,16 +52,15 @@ export const getAllJobsThunk = async (
     const response: any = await request('get', url, params);
     return response.data;
   } catch (err: any) {
-    return thunkApi.rejectWithValue(err.response.data.msg);
+    return checkForUnauthorizedResponse(err, thunkApi);
   }
 };
 
-export const showStatsThunk = async (thunkAPI: ThunkApi) => {
+export const showStatsThunk = async (thunkApi: ThunkApi) => {
   try {
     const resp = await request('get', '/jobs/stats');
-    console.log(resp.data);
     return resp.data;
-  } catch (error: any) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+  } catch (err: any) {
+    return checkForUnauthorizedResponse(err, thunkApi);
   }
 };

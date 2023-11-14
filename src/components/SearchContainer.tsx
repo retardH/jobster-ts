@@ -5,7 +5,9 @@ import FormRow from './FormRow';
 import FormRowSelect from './FormRowSelect';
 import { jobTypeOptions, statusOptions } from '../utils/constants';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { getAllJobs, setSearchFilter } from '../features/jobs/jobsSlice.ts';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { JobSearchForm } from '../types';
 
 const SearchContainer = () => {
   const { isLoading } = useSelector((state: RootState) => state.user);
@@ -19,63 +21,48 @@ const SearchContainer = () => {
     sort,
     searchType,
   };
-  const [searchForm, setSearchForm] = useState(initialSearchValues);
+  const { register, handleSubmit, reset } = useForm<JobSearchForm>({
+    defaultValues: initialSearchValues,
+  });
 
-  const handleSearch = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    if (isLoading) {
-      return;
-    }
-    setSearchForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSearchForm(initialSearchValues);
-    console.log('submitted', searchForm);
+  const onSubmit: SubmitHandler<JobSearchForm> = (data) => {
+    reset();
+    dispatch(setSearchFilter(data));
+    dispatch(getAllJobs());
   };
   return (
     <Wrapper>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <h4>search form</h4>
         <div className="form-center">
           {/* search position */}
-
           <FormRow
             type="text"
             name="search"
-            value={searchForm.search}
-            handleChange={handleSearch}
+            inputProps={register('search', { required: false })}
           />
           {/* search by status */}
           <FormRowSelect
             labelText="status"
             name="searchStatus"
-            value={searchForm.searchStatus}
-            handleChange={handleSearch}
             options={['all', ...statusOptions]}
+            inputProps={register('searchStatus', { required: true })}
           />
           {/* search by type */}
           <FormRowSelect
             labelText="type"
             name="searchType"
-            value={searchForm.searchType}
-            handleChange={handleSearch}
             options={['all', ...jobTypeOptions]}
+            inputProps={register('searchType', { required: true })}
           />
           {/* sort */}
           <FormRowSelect
             name="sort"
-            value={searchForm.sort}
-            handleChange={handleSearch}
             options={sortOptions}
+            inputProps={register('sort', { required: true })}
           />
-          <button
-            className="btn btn-block btn-danger"
-            disabled={isLoading}
-            onClick={handleSubmit}
-          >
-            clear filters
+          <button className="btn btn-block btn-danger" disabled={isLoading}>
+            search
           </button>
         </div>
       </form>

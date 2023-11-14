@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 type StatItemProps = {
   count: number;
@@ -21,7 +21,7 @@ const StatItem = ({ count, title, icon, color, bcg }: StatItemProps) => {
 
 export default StatItem;
 
-const Wrapper = styled.article<{ bcg?: string; color?: string }>`
+const Wrapper = styled.article<{ bcg?: string }>`
   padding: 2rem;
   background: var(--white);
   border-radius: var(--borderRadius);

@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import FormRow from '../../components/FormRow';
 import FormRowSelect from '../../components/FormRowSelect';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { request } from '../../utils/axios.ts';
 import { useDispatch } from 'react-redux';
-import { editJob } from '../../features/jobs/jobsSlice.ts';
+import { clearJobsState, editJob } from '../../features/jobs/jobsSlice.ts';
 import { jobTypeOptions, statusOptions } from '../../utils/constants.ts';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { AddOrEditJobForm } from '../../types';
 
 const AddJob = () => {
   const {
@@ -26,15 +28,15 @@ const AddJob = () => {
     position,
     company,
     jobLocation,
-    jobTypeOptions: jobTypeOptions,
     jobType,
-    statusOptions: statusOptions,
     status,
   };
 
-  const [jobForm, setJobForm] = useState(initialFormValues);
+  const { register, handleSubmit, reset } = useForm<AddOrEditJobForm>({
+    defaultValues: initialFormValues,
+  });
 
-  const requestNewJobCreate = async (payload: any) => {
+  const addNewJob = async (payload: any) => {
     try {
       await request('post', '/jobs', payload, {
         headers: {
@@ -47,50 +49,30 @@ const AddJob = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    const { position, company, jobLocation, jobType, status } = jobForm;
-    e.preventDefault();
-    if (!position || !company || !jobLocation) {
-      toast.warn('Please fill out all fields');
-      return;
-    }
-
+  const onSubmit: SubmitHandler<AddOrEditJobForm> = (data) => {
+    const { company, position, jobLocation, jobType, status } = data;
     if (isEditing) {
       dispatch(
         editJob({
           jobId: editJobId,
           job: { company, position, jobLocation, jobType, status },
-        })
+        }),
       );
       return;
     }
-
-    requestNewJobCreate({ position, company, jobLocation, jobType, status });
-  };
-
-  const handleJobInput = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setJobForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    addNewJob({ position, company, jobLocation, jobType, status });
+    console.log('form data', data);
   };
 
   useEffect(() => {
-    if (!isEditing) {
-      setJobForm((prev) => ({
-        ...prev,
-        jobLocation: user!.location,
-      }));
-    }
-  }, [isEditing, user]);
+    return () => {
+      dispatch(clearJobsState());
+    };
+  }, [dispatch]);
 
   return (
     <Wrapper>
-      <form className="form">
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <h3>{isEditing ? 'edit job' : 'add job'}</h3>
 
         <div className="form-center">
@@ -98,52 +80,46 @@ const AddJob = () => {
           <FormRow
             type="text"
             name="position"
-            value={jobForm.position}
-            handleChange={handleJobInput}
+            inputProps={register('position', { required: true })}
           />
           {/* company */}
           <FormRow
             type="text"
             name="company"
-            value={jobForm.company}
-            handleChange={handleJobInput}
+            inputProps={register('company', { required: true })}
           />
           {/* location */}
           <FormRow
             type="text"
             labelText="job location"
             name="jobLocation"
-            value={jobForm.jobLocation}
-            handleChange={handleJobInput}
+            inputProps={register('jobLocation', { required: true })}
           />
           {/* job status */}
           <FormRowSelect
             name="status"
-            value={jobForm.status}
-            handleChange={handleJobInput}
-            options={jobForm.statusOptions}
+            options={statusOptions}
+            inputProps={register('status', { required: true })}
           />
           {/* job type */}
           <FormRowSelect
             name="jobType"
             labelText="job type"
-            value={jobForm.jobType}
-            handleChange={handleJobInput}
-            options={jobForm.jobTypeOptions}
+            options={jobTypeOptions}
+            inputProps={register('jobType', { required: true })}
           />
           {/* btn container */}
           <div className="btn-container">
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => setJobForm(initialFormValues)}
+              onClick={() => reset()}
             >
               clear
             </button>
             <button
               type="submit"
               className="btn btn-block submit-btn"
-              onClick={handleSubmit}
               disabled={isLoading}
             >
               submit
