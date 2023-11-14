@@ -8,7 +8,9 @@ import {
   clearStore,
   toggleSidebarOpen,
 } from '../../features/user/userSlice.ts';
+import { useNavigate } from 'react-router-dom';
 const Header = () => {
+  const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -42,8 +44,16 @@ const Header = () => {
             <button
               type="button"
               className="dropdown-btn"
-              onClick={logoutButtonHandler}
-            >
+              onClick={() => {
+                navigate('/profile');
+                toggleDropdown();
+              }}>
+              profile
+            </button>
+            <button
+              type="button"
+              className="dropdown-btn logout-btn"
+              onClick={logoutButtonHandler}>
               logout
             </button>
           </div>
@@ -108,6 +118,8 @@ const Wrapper = styled.nav`
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
+    display: flex;
+    flex-direction: column;
   }
   .show-dropdown {
     visibility: visible;
@@ -119,6 +131,12 @@ const Wrapper = styled.nav`
     letter-spacing: var(--letterSpacing);
     text-transform: capitalize;
     cursor: pointer;
+    width: 100%;
+    height: 100%;
+    padding: 6px 0;
+  }
+  .logout-btn {
+    border-top: 1px solid var(--primary-500);
   }
   .logo-text {
     display: none;

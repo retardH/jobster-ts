@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IJobSlice, ThunkApi } from '../../types';
+import { IJobSlice, JobSearchForm, ThunkApi } from '../../types';
 import { toast } from 'react-toastify';
 import {
   deleteJobThunk,
@@ -13,7 +13,7 @@ const initialFiltersState = {
   search: '',
   searchStatus: 'all',
   searchType: 'all',
-  sort: 'latest',
+  sort: 'a-z',
   sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 };
 
@@ -37,7 +37,7 @@ const initialState: IJobSlice = {
 
 export const getAllJobs = createAsyncThunk(
   'allJobs/getJobs',
-  async (_, thunkApi) => {
+  async (_, thunkApi: any) => {
     return getAllJobsThunk(thunkApi as ThunkApi<{ state: RootState }>);
   }
 );
@@ -74,32 +74,44 @@ const jobsSlice = createSlice({
       state.page = action.payload;
     },
     clearJobsState: () => initialState,
+    setSearchFilter: (state: JobSearchForm, action) => {
+      const tempState = {
+        ...state,
+        search: action.payload.search,
+        searchStatus: action.payload.searchStatus,
+        sort: action.payload.sort,
+        searchType: action.payload.searchType,
+      };
+      Object.assign(state, tempState);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllJobs.fulfilled, (state, action) => {
       state.jobs = action.payload.jobs;
       state.numOfPages = action.payload.numOfPages;
       state.totalJobs = action.payload.totalJobs;
-    }),
-      builder.addCase(getAllJobs.rejected, (_, action) => {
-        toast.error(action.payload as string);
-      }),
-      builder.addCase(editJob.fulfilled, () => {
-        toast.success('Job Modified.');
-      }),
-      builder.addCase(editJob.rejected, (_, action) => {
-        toast.error(action.payload as string);
-      }),
-      builder.addCase(showStats.fulfilled, (state, action) => {
-        state.monthlyApplications = action.payload.monthlyApplications;
-        state.stats = action.payload.defaultStats;
-      }),
-      builder.addCase(showStats.rejected, (_, action) => {
-        toast.error(action.payload as string);
-      });
+    });
+    builder.addCase(getAllJobs.rejected, (_, action) => {
+      toast.error(action.payload as string);
+    });
+    builder.addCase(editJob.fulfilled, () => {
+      toast.success('Job Modified.');
+      clearJobsState();
+    });
+    builder.addCase(editJob.rejected, (_, action) => {
+      toast.error(action.payload as string);
+    });
+    builder.addCase(showStats.fulfilled, (state, action) => {
+      state.monthlyApplications = action.payload.monthlyApplications;
+      state.stats = action.payload.defaultStats;
+    });
+    builder.addCase(showStats.rejected, (_, action) => {
+      toast.error(action.payload as string);
+    });
   },
 });
 
-export const { setEditJob, changePage, clearJobsState } = jobsSlice.actions;
+export const { setEditJob, changePage, clearJobsState, setSearchFilter } =
+  jobsSlice.actions;
 
 export default jobsSlice.reducer;

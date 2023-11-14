@@ -38,10 +38,6 @@ export const updateUserThunk = async (
     const response: any = await request("patch", url, user);
     return response.data;
   } catch (err: any) {
-    if (err.response.status === 401) {
-      thunkAPI.dispatch(logoutUser());
-      return thunkAPI.rejectWithValue("Please log in again");
-    }
     return checkForUnauthorizedResponse(err, thunkAPI);
   }
 };

@@ -102,7 +102,7 @@ const userSlice = createSlice({
     builder.addCase(updateUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.user = action.payload.user;
-
+      console.log("succcc");
       addUserToLocalStorage(action.payload.user);
       toast.success("Profile Successfully Updated");
     });

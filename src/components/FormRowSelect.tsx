@@ -1,29 +1,24 @@
+import React from "react";
+
 type FormRowSelectProps = {
-  handleChange: any;
   options: any[];
   labelText?: string;
   name: string;
-  value: string;
+  inputProps: React.HTMLProps<HTMLSelectElement>;
 };
 
 const FormRowSelect = ({
-  handleChange,
   options,
   labelText,
   name,
-  value,
+  inputProps,
 }: FormRowSelectProps) => {
   return (
     <div className="form-row">
       <label htmlFor={name} className="form-label">
         {labelText || name}
       </label>
-      <select
-        name={name}
-        value={value}
-        onChange={handleChange}
-        className="form-select"
-      >
+      <select className="form-select" name={name} {...inputProps}>
         {options.map((itemValue, index) => {
           return (
             <option key={index} value={itemValue}>

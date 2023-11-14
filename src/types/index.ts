@@ -1,5 +1,34 @@
 import { GetThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
 
+export type RegisterLoginForm = {
+  name?: string;
+  email: string;
+  password: string;
+  isMember: boolean;
+};
+
+export type ProfileForm = {
+  name: string;
+  lastName: string;
+  location: string;
+  email: string;
+};
+
+export type AddOrEditJobForm = {
+  position: string;
+  company: string;
+  jobLocation: string;
+  jobType: string;
+  status: string;
+};
+
+export type JobSearchForm = {
+  search: string;
+  searchStatus: string;
+  sort: string;
+  searchType: string;
+};
+
 export type LoginPayload = {
   email: string;
   password: string;
@@ -19,22 +48,22 @@ export type User = {
   token: string;
 };
 
-export type UpdateUserPayload = {
-  name: string;
-  lastName: string;
-  location: string;
-  email: string;
-};
+// export type UpdateUserPayload = {
+//   name: string;
+//   lastName: string;
+//   location: string;
+//   email: string;
+// };
+//
+// export type CreateNewJobPayload = {
+//   position: string;
+//   company: string;
+//   jobLocation: string;
+//   status: 'pending' | 'interview' | 'declined';
+//   jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
+// } & any;
 
-export type CreateNewJobPayload = {
-  position: string;
-  company: string;
-  jobLocation: string;
-  status: 'pending' | 'interview' | 'declined';
-  jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
-} & any;
-
-export type ThunkApi<T = any> = GetThunkAPI<{} & T>;
+export type ThunkApi<T = any> = GetThunkAPI<NonNullable<unknown> & T>;
 
 export interface IJobSlice {
   isEditing: boolean;
@@ -72,4 +101,4 @@ export interface IUserSlice {
   isSidebarOpen: boolean;
 }
 
-export type JobsStateChangeAction = Record<keyof IJobSlice, any>;
+// export type JobsStateChangeAction = Record<keyof IJobSlice, any>;

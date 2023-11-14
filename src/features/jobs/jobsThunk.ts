@@ -1,10 +1,10 @@
-import { ThunkApi } from "../../types";
-import { checkForUnauthorizedResponse, request } from "../../utils/axios";
-import { RootState } from "../store";
+import { ThunkApi } from '../../types';
+import { checkForUnauthorizedResponse, request } from '../../utils/axios';
+import { RootState } from '../store';
 
 export const deleteJobThunk = async (url: string, thunkApi: ThunkApi) => {
   try {
-    const response = await request("delete", url);
+    const response = await request('delete', url);
     return response.data;
   } catch (err: any) {
     return checkForUnauthorizedResponse(err, thunkApi);
@@ -14,10 +14,10 @@ export const deleteJobThunk = async (url: string, thunkApi: ThunkApi) => {
 export const editJobThunk = async (
   url: string,
   jobPayload: Record<string, any>,
-  thunkApi: ThunkApi,
+  thunkApi: ThunkApi
 ) => {
   try {
-    const response = request("patch", url, jobPayload);
+    const response = request('patch', url, jobPayload);
     return response.data;
   } catch (err: any) {
     return checkForUnauthorizedResponse(err, thunkApi);
@@ -25,7 +25,7 @@ export const editJobThunk = async (
 };
 
 export const getAllJobsThunk = async (
-  thunkApi: ThunkApi<{ state: RootState }>,
+  thunkApi: ThunkApi<{ state: RootState }>
 ) => {
   const {
     search,
@@ -35,7 +35,7 @@ export const getAllJobsThunk = async (
     page,
   } = thunkApi.getState().jobs;
 
-  const url = "/jobs";
+  const url = '/jobs';
 
   let params: any = {
     status,
@@ -49,7 +49,7 @@ export const getAllJobsThunk = async (
   }
 
   try {
-    const response: any = await request("get", url, params);
+    const response: any = await request('get', url, params);
     return response.data;
   } catch (err: any) {
     return checkForUnauthorizedResponse(err, thunkApi);
@@ -58,7 +58,7 @@ export const getAllJobsThunk = async (
 
 export const showStatsThunk = async (thunkApi: ThunkApi) => {
   try {
-    const resp = await request("get", "/jobs/stats");
+    const resp = await request('get', '/jobs/stats');
     return resp.data;
   } catch (err: any) {
     return checkForUnauthorizedResponse(err, thunkApi);
