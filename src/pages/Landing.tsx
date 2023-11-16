@@ -1,5 +1,5 @@
 import Logo from '../components/Logo';
-import jobHunt from '../assets/images/jobhunt.svg';
+import jobHunt from '../assets/images/landingImage.png';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 const Landing = () => {
@@ -7,9 +7,11 @@ const Landing = () => {
     <Wrapper>
       <nav>
         <Logo />
+        <Link to="/register" className="btn btn-hero">
+          Login/Register
+        </Link>
       </nav>
       <div className="container page">
-        {/* info */}
         <div className="info">
           <h1>
             job <span>tracking</span> app
@@ -25,8 +27,8 @@ const Landing = () => {
             positions that match your skills, interests, and aspirations. Your
             dream job is just a click away!
           </p>
-          <Link to="/register" className="btn btn-hero">
-            Login/Register
+          <Link to="/" className="btn btn-hero">
+            Go To Dashboard
           </Link>
         </div>
         <img src={jobHunt} alt="job hunt" className="img main-img" />
@@ -43,6 +45,7 @@ const Wrapper = styled.main`
     height: var(--nav-height);
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   .page {
     min-height: calc(100vh - var(--nav-height));

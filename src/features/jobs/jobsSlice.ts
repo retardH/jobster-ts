@@ -75,14 +75,14 @@ const jobsSlice = createSlice({
     },
     clearJobsState: () => initialState,
     setSearchFilter: (state: JobSearchForm, action) => {
-      const tempState = {
+      const newState = {
         ...state,
         search: action.payload.search,
         searchStatus: action.payload.searchStatus,
         sort: action.payload.sort,
         searchType: action.payload.searchType,
       };
-      Object.assign(state, tempState);
+      Object.assign(state, newState);
     },
   },
   extraReducers: (builder) => {

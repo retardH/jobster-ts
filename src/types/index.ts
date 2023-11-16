@@ -1,5 +1,8 @@
 import { GetThunkAPI } from '@reduxjs/toolkit/dist/createAsyncThunk';
 
+/*
+ *@description Types for all the forms used with react-hook-form in the project.
+ */
 export type RegisterLoginForm = {
   name?: string;
   email: string;
@@ -29,6 +32,9 @@ export type JobSearchForm = {
   searchType: string;
 };
 
+/*
+ *@description Types for all the user info related request payload.
+ */
 export type LoginPayload = {
   email: string;
   password: string;
@@ -40,6 +46,13 @@ export type RegisterPayload = {
   password: string;
 };
 
+export type UpdateUserPayload = {
+  name: string;
+  lastName: string;
+  location: string;
+  email: string;
+};
+
 export type User = {
   email: string;
   name: string;
@@ -48,13 +61,6 @@ export type User = {
   token: string;
 };
 
-// export type UpdateUserPayload = {
-//   name: string;
-//   lastName: string;
-//   location: string;
-//   email: string;
-// };
-//
 // export type CreateNewJobPayload = {
 //   position: string;
 //   company: string;
@@ -63,9 +69,15 @@ export type User = {
 //   jobType: 'full-time' | 'part-time' | 'remote' | 'internship';
 // } & any;
 
+/*
+ *@description Manually typed thunkApi for thunks(user and jobs).
+ */
 export type ThunkApi<T = any> = GetThunkAPI<NonNullable<unknown> & T>;
 
-export interface IJobSlice {
+/*
+ *@description Redux job slice type
+ */
+export type IJobSlice = {
   isEditing: boolean;
   editJobId: string;
   jobs: {
@@ -93,12 +105,13 @@ export interface IJobSlice {
   searchType: string;
   sort: string;
   sortOptions: string[];
-}
+};
 
-export interface IUserSlice {
+/*
+ *@description Redux user slice type
+ */
+export type IUserSlice = {
   isLoading: boolean;
   user: User | null;
   isSidebarOpen: boolean;
-}
-
-// export type JobsStateChangeAction = Record<keyof IJobSlice, any>;
+};
