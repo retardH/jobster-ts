@@ -16,8 +16,8 @@ function App() {
     <BrowserRouter>
       <ToastContainer
         position="top-center"
-        autoClose={2000}
-        style={{ zIndex: 9999999 }}
+        autoClose={1500}
+        style={{ zIndex: 99999 }}
       />
       <Routes>
         <Route

@@ -115,5 +115,3 @@ export type IUserSlice = {
   user: User | null;
   isSidebarOpen: boolean;
 };
-
-// export type JobsStateChangeAction = Record<keyof IJobSlice, any>;
