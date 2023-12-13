@@ -38,8 +38,7 @@ const PageBtnContainer = () => {
               type="button"
               className={pageNumber === page ? 'pageBtn active' : 'pageBtn'}
               key={pageNumber}
-              onClick={() => dispatch(changePage(pageNumber))}
-            >
+              onClick={() => dispatch(changePage(pageNumber))}>
               {pageNumber}
             </button>
           );

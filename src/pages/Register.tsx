@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import Logo from "../components/Logo";
-import FormRow from "../components/FormRow";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../features/store.ts";
-import { loginUser, registerUser } from "../features/user/userSlice.ts";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { RegisterLoginForm } from "../types";
+import React, { useEffect } from 'react';
+import Logo from '../components/Logo';
+import FormRow from '../components/FormRow';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../features/store.ts';
+import { loginUser, registerUser } from '../features/user/userSlice.ts';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { RegisterLoginForm } from '../types';
 
 const initialState = {
-  name: "",
-  email: "",
-  password: "",
+  name: '',
+  email: '',
+  password: '',
   isMember: true,
 };
 const Register = () => {
@@ -23,7 +23,7 @@ const Register = () => {
     });
   const { user, isLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const watchIsMember = watch("isMember");
+  const watchIsMember = watch('isMember');
   const onSubmit: SubmitHandler<RegisterLoginForm> = (data) => {
     const { name, email, password, isMember } = data;
     // if (!email || !password || (!isMember && !name)) {
@@ -37,14 +37,14 @@ const Register = () => {
     dispatch(registerUser({ name: name!, email: email, password: password }));
   };
   const toggleMember = () => {
-    const isMember = getValues("isMember");
-    setValue("isMember", !isMember);
+    const isMember = getValues('isMember');
+    setValue('isMember', !isMember);
   };
 
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate("/");
+        navigate('/');
       }, 1500);
     }
   }, [user, navigate]);
@@ -52,31 +52,31 @@ const Register = () => {
     <Wrapper className="full-page">
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Logo />
-        <h3>{watchIsMember ? "Login" : "Register"}</h3>
+        <h3>{watchIsMember ? 'Login' : 'Register'}</h3>
         {/*<b>Errors: {formState.errors.email?.message}</b>*/}
         {!watchIsMember && (
           <FormRow
             name="name"
-            inputProps={register("name", { required: !watchIsMember })}
+            inputProps={register('name', { required: !watchIsMember })}
           />
         )}
         <FormRow
           type="email"
           name="email"
-          inputProps={register("email", {
+          inputProps={register('email', {
             required: {
               value: true,
-              message: "Please enter email",
+              message: 'Please enter email',
             },
           })}
         />
         <FormRow
           type="password"
           name="password"
-          inputProps={register("password", { required: true })}
+          inputProps={register('password', { required: true })}
         />
         <button type="submit" className="btn btn-block" disabled={isLoading}>
-          {isLoading ? "loading..." : "submit"}
+          {isLoading ? 'loading...' : 'submit'}
         </button>
         <button
           type="button"
@@ -84,16 +84,15 @@ const Register = () => {
           disabled={isLoading}
           onClick={() => {
             dispatch(
-              loginUser({ email: "testUser@test.com", password: "secret" }),
+              loginUser({ email: 'testUser@test.com', password: 'secret' })
             );
-          }}
-        >
-          {isLoading ? "loading..." : "demo"}
+          }}>
+          {isLoading ? 'loading...' : 'demo'}
         </button>
         <p>
-          {!watchIsMember ? "Already a member?" : "Not a member yet?"}
+          {!watchIsMember ? 'Already a member?' : 'Not a member yet?'}
           <button type="button" className="member-btn" onClick={toggleMember}>
-            {!watchIsMember ? "Login" : "Register"}
+            {!watchIsMember ? 'Login' : 'Register'}
           </button>
         </p>
       </form>

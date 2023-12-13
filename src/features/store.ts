@@ -1,6 +1,6 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userSlice from "./user/userSlice.ts";
-import jobsSlice from "./jobs/jobsSlice.ts";
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import userSlice from './user/userSlice.ts';
+import jobsSlice from './jobs/jobsSlice.ts';
 
 const rootReducer = combineReducers({
   user: userSlice,

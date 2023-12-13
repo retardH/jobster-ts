@@ -8,15 +8,13 @@ import StatsContainer from '../../components/StatsContainer';
 import ChartsContainer from '../../components/ChartsContainer';
 
 const Stats = () => {
-  const { stats, monthlyApplications } = useSelector(
-    (state: RootState) => state.jobs
-  );
+  const { monthlyApplications } = useSelector((state: RootState) => state.jobs);
   const { isLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(showStats());
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Loading isLoading={true} color="#3b82f6" />;

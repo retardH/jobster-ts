@@ -22,19 +22,7 @@ const Profile = () => {
   });
 
   const onSubmit: SubmitHandler<ProfileForm> = (data) => {
-    console.log('profile form data', data);
     dispatch(updateUser(data));
-
-    // if (
-    //   !userData.email ||
-    //   !userData.name ||
-    //   !userData.lastName ||
-    //   !userData.location
-    // ) {
-    //   toast.error("Please fills out all fields.");
-    //   return;
-    // } else {
-    // }
   };
 
   return (

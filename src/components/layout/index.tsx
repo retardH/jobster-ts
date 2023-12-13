@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
-import Header from "./Header.tsx";
-import styled from "styled-components";
-import LargeSidebar from "./LargeSidebar.tsx";
-import SmallSidebar from "./SmallSidebar.tsx";
+import { Outlet } from 'react-router-dom';
+import Header from './Header.tsx';
+import styled from 'styled-components';
+import LargeSidebar from './LargeSidebar.tsx';
+import SmallSidebar from './SmallSidebar.tsx';
 
 const SharedLayout = () => {
   return (

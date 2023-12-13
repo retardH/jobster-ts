@@ -22,7 +22,7 @@ const AddJob = () => {
     jobType,
     status,
   } = useSelector((state: RootState) => state.jobs);
-  const { user, isLoading } = useSelector((state: RootState) => state.user);
+  const { isLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const initialFormValues = {
     position,
@@ -38,11 +38,7 @@ const AddJob = () => {
 
   const addNewJob = async (payload: any) => {
     try {
-      await request('post', '/jobs', payload, {
-        headers: {
-          Authorization: `Bearer ${user?.token}`,
-        },
-      });
+      await request('post', '/jobs', payload);
       toast.success('Job Created!');
     } catch (err: any) {
       toast.error(err.response.data.msg);
@@ -56,7 +52,7 @@ const AddJob = () => {
         editJob({
           jobId: editJobId,
           job: { company, position, jobLocation, jobType, status },
-        }),
+        })
       );
       return;
     }
@@ -113,15 +109,13 @@ const AddJob = () => {
             <button
               type="button"
               className="btn btn-block clear-btn"
-              onClick={() => reset()}
-            >
+              onClick={() => reset()}>
               clear
             </button>
             <button
               type="submit"
               className="btn btn-block submit-btn"
-              disabled={isLoading}
-            >
+              disabled={isLoading}>
               submit
             </button>
           </div>
