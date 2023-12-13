@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import JobInfo from "./JobInfo";
-import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from "react-icons/fa";
-import moment from "moment";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../features/store";
-import { deleteJob, setEditJob } from "../features/jobs/jobsSlice";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import JobInfo from './JobInfo';
+import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from 'react-icons/fa';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../features/store';
+import { deleteJob, setEditJob } from '../features/jobs/jobsSlice';
 
 type JobProps = {
   _id: string;
@@ -26,7 +26,7 @@ const Job = ({
   status,
   jobType,
 }: JobProps) => {
-  const date = moment(createdAt).format("MMM Do, YYYY");
+  const date = moment(createdAt).format('MMM Do, YYYY');
   const dispatch = useDispatch<AppDispatch>();
 
   return (
@@ -59,10 +59,9 @@ const Job = ({
                     jobLocation,
                     jobType,
                     status,
-                  }),
+                  })
                 );
-              }}
-            >
+              }}>
               Edit
             </Link>
             <button
@@ -70,8 +69,7 @@ const Job = ({
               className="btn delete-btn"
               onClick={() => {
                 dispatch(deleteJob(_id));
-              }}
-            >
+              }}>
               Delete
             </button>
           </div>

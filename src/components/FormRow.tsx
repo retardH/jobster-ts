@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type FormRowProps = {
   type?: string;
@@ -8,7 +8,7 @@ type FormRowProps = {
 };
 
 const FormRow = ({
-  type = "text",
+  type = 'text',
   labelText,
   name,
   inputProps,
