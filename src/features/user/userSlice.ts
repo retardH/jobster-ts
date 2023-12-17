@@ -5,7 +5,7 @@ import {
   RegisterPayload,
   UpdateUserPayload,
 } from '../../types';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import {
   addUserToLocalStorage,
   getUserFromLocalStorage,

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IJobSlice, JobSearchForm, ThunkApi } from '../../types';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import {
   deleteJobThunk,
   editJobThunk,
@@ -68,7 +68,9 @@ const jobsSlice = createSlice({
   initialState,
   reducers: {
     setEditJob: (state, action) => {
-      return { ...state, isEditing: true, ...action.payload };
+      console.log('edit jbbb');
+
+      return { ...state, ...action.payload, isEditing: true };
     },
     changePage: (state, action) => {
       state.page = action.payload;
@@ -100,6 +102,9 @@ const jobsSlice = createSlice({
     });
     builder.addCase(editJob.rejected, (_, action) => {
       toast.error(action.payload as string);
+    });
+    builder.addCase(deleteJob.fulfilled, () => {
+      toast.success('Job Deleted.');
     });
     builder.addCase(showStats.fulfilled, (state, action) => {
       state.monthlyApplications = action.payload.monthlyApplications;

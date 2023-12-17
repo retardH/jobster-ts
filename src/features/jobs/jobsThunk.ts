@@ -37,7 +37,7 @@ export const getAllJobsThunk = async (
 
   const url = '/jobs';
 
-  let params: any = {
+  let params: Record<string, any> = {
     status,
     jobType,
     sort,

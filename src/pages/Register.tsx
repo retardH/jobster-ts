@@ -26,10 +26,6 @@ const Register = () => {
   const watchIsMember = watch('isMember');
   const onSubmit: SubmitHandler<RegisterLoginForm> = (data) => {
     const { name, email, password, isMember } = data;
-    // if (!email || !password || (!isMember && !name)) {
-    //   toast.warn("Please fill out all fields");
-    //   return;
-    // }
     if (isMember) {
       dispatch(loginUser({ email: email, password: password }));
       return;

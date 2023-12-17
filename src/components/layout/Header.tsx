@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   const logoutButtonHandler = () => {
-    dispatch(clearStore('logout successful'));
+    dispatch(clearStore('Logout Successful'));
   };
 
   return (
@@ -73,7 +73,7 @@ const Wrapper = styled.nav`
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 9;
   .logo {
     display: flex;
     align-items: center;
