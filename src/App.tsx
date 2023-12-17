@@ -3,21 +3,25 @@ import Landing from './pages/Landing';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Register from './pages/Register';
 import Error from './pages/Error';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
 import Layout from './components/layout';
 import AllJobs from './pages/dashboard/AllJobs.tsx';
 import AddJob from './pages/dashboard/AddJob.tsx';
 import Profile from './pages/dashboard/Profile.tsx';
 import ProtectedRoute from './pages/ProtectedRoute.tsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer
+      <Toaster
         position="top-center"
-        autoClose={1500}
-        style={{ zIndex: 99999 }}
+        reverseOrder={false}
+        toastOptions={{
+          duration: 2500,
+        }}
+        containerStyle={{
+          zIndex: 9999,
+        }}
       />
       <Routes>
         <Route

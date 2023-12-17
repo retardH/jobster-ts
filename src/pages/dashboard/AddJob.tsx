@@ -3,11 +3,10 @@ import { AppDispatch, RootState } from '../../features/store';
 import styled from 'styled-components';
 import FormRow from '../../components/FormRow';
 import FormRowSelect from '../../components/FormRowSelect';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import { request } from '../../utils/axios.ts';
 import { useDispatch } from 'react-redux';
-import { clearJobsState, editJob } from '../../features/jobs/jobsSlice.ts';
+import { editJob } from '../../features/jobs/jobsSlice.ts';
 import { jobTypeOptions, statusOptions } from '../../utils/constants.ts';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AddOrEditJobForm } from '../../types';
@@ -47,6 +46,7 @@ const AddJob = () => {
 
   const onSubmit: SubmitHandler<AddOrEditJobForm> = (data) => {
     const { company, position, jobLocation, jobType, status } = data;
+
     if (isEditing) {
       dispatch(
         editJob({
@@ -57,14 +57,7 @@ const AddJob = () => {
       return;
     }
     addNewJob({ position, company, jobLocation, jobType, status });
-    console.log('form data', data);
   };
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearJobsState());
-    };
-  }, [dispatch]);
 
   return (
     <Wrapper>
